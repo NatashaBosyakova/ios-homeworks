@@ -8,19 +8,26 @@
 import UIKit
 
 class InfoViewController: UIViewController {
+    
+    private lazy var button: UIButton = {
+        
+        var filled = UIButton.Configuration.filled()
+        filled.baseBackgroundColor = .systemGray
+        filled.titlePadding = 8
+        filled.title = "Show alert"
+        filled.cornerStyle = .medium
+        
+        let button = UIButton(configuration: filled)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(showAlert), for: .touchUpInside)
+
+        return button
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.backgroundColor = .systemGray3
-        
-        let button = UIButton(frame: CGRect(x: 100, y: 100, width: 100, height: 50))
-        button.backgroundColor = .systemGray4
-        button.layer.cornerRadius = 5
-        button.contentEdgeInsets = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0 )
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Show alert", for: .normal)
-        button.addTarget(self, action: #selector(showAlert), for: .touchUpInside)
         
         view.addSubview(button)
         

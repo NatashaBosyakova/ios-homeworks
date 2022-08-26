@@ -63,13 +63,14 @@ class ProfileHeaderView: UIView {
         textStatus.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: 40))
         textStatus.leftViewMode = .always
         textStatus.translatesAutoresizingMaskIntoConstraints = false
+        textStatus.addTarget(self, action: #selector(changeStatus), for: .editingChanged) // extra task
 
         return textStatus
     }()
     
     private lazy var button: UIButton = {
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-        button.backgroundColor = .systemGray4
+        button.backgroundColor = .systemGray
         button.layer.cornerRadius = 4
         button.setTitle("Set status", for: .normal)
         button.layer.shadowColor = UIColor.black.cgColor
@@ -77,15 +78,13 @@ class ProfileHeaderView: UIView {
         button.layer.shadowRadius = 4
         button.layer.shadowOpacity = 0.7
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(showStatus), for: .touchUpInside)
 
         return button
     }()
     
     override func draw(_ rect: CGRect) {
-        
-        button.addTarget(self, action: #selector(showStatus), for: .touchUpInside)
-        textStatus.addTarget(self, action: #selector(changeStatus), for: .editingChanged) // extra task
-        
+                
         self.addSubview(imageView)
         self.addSubview(labelName)
         self.addSubview(labelStatus)

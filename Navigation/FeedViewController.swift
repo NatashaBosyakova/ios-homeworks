@@ -15,6 +15,44 @@ class FeedViewController: UIViewController {
     
     var post: Post
     
+    private lazy var button1: UIButton = {
+        
+        var filled = UIButton.Configuration.filled()
+        filled.baseBackgroundColor = .systemGray
+        filled.titlePadding = 8
+        filled.title = "Show post 1"
+        filled.cornerStyle = .medium
+        
+        let button = UIButton(configuration: filled)
+        button.addTarget(self, action: #selector(showPostViewController), for: .touchUpInside)
+
+        return button
+    }()
+ 
+    private lazy var button2: UIButton = {
+        var filled = UIButton.Configuration.filled()
+        filled.baseBackgroundColor = .systemGray
+        filled.titlePadding = 8
+        filled.title = "Show post 2"
+        filled.cornerStyle = .medium
+        
+        let button = UIButton(configuration: filled)
+        button.addTarget(self, action: #selector(showPostViewController), for: .touchUpInside)
+
+        return button
+    }()
+    
+    private lazy var stackView: UIStackView = {
+        let stackView = UIStackView(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
+        stackView.alignment = .center
+        stackView.axis = .vertical
+        stackView.spacing = 10
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.distribution = .equalSpacing
+
+        return stackView
+    }()
+    
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         self.post = Post(text: "Some post (title from FeedViewController)")
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -29,23 +67,18 @@ class FeedViewController: UIViewController {
             
         view.backgroundColor = .systemGray3
         
-        let button = UIButton(frame: CGRect(x: 100, y: 100, width: 100, height: 50))
-        button.backgroundColor = .systemGray4
-        button.layer.cornerRadius = 5
-        button.contentEdgeInsets = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0 )
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Show post", for: .normal)
-        button.addTarget(self, action: #selector(showPostViewController), for: .touchUpInside)
+        //navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Info", style: .plain, target: self, action: #selector(showInfoViewController))
+        //navigationItem.rightBarButtonItem?.tintColor = .white
         
-        view.addSubview(button)
+        //stackView.addArrangedSubview(button1)
+        //stackView.addArrangedSubview(button2)
+        //view.addSubview(stackView)
         
-        NSLayoutConstraint.activate([
-            button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            button.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        ])
-        
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Info", style: .plain, target: self, action: #selector(showInfoViewController))
-        navigationItem.rightBarButtonItem?.tintColor = .white
+        //NSLayoutConstraint.activate([
+        //    stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+        //    stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),           //stackView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            //stackView.leftAnchor.constraint(equalTo: view.leftAnchor),
+        //])
 
     }
     
