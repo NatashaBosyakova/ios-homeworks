@@ -2,8 +2,8 @@
   "colors" : [
     {
       "color" : {
-        "platform" : "watchos",
-        "reference" : "systemBrownColor"
+        "platform" : "ios",
+        "reference" : "systemGray4Color"
       },
       "idiom" : "universal"
     },
@@ -15,8 +15,8 @@
         }
       ],
       "color" : {
-        "platform" : "universal",
-        "reference" : "systemBrownColor"
+        "platform" : "ios",
+        "reference" : "systemGray4Color"
       },
       "idiom" : "universal"
     }

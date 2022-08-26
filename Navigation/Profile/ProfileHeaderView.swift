@@ -70,7 +70,7 @@ class ProfileHeaderView: UIView {
     
     private lazy var button: UIButton = {
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-        button.backgroundColor = .systemGray
+        button.backgroundColor = UIColor(named: "ButtonColor")
         button.layer.cornerRadius = 4
         button.setTitle("Set status", for: .normal)
         button.layer.shadowColor = UIColor.black.cgColor

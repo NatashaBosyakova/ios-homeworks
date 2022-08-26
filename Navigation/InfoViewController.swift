@@ -12,7 +12,7 @@ class InfoViewController: UIViewController {
     private lazy var button: UIButton = {
         
         var filled = UIButton.Configuration.filled()
-        filled.baseBackgroundColor = .systemGray
+        filled.baseBackgroundColor = UIColor(named: "ButtonColor")
         filled.titlePadding = 8
         filled.title = "Show alert"
         filled.cornerStyle = .medium

@@ -18,7 +18,7 @@ class FeedViewController: UIViewController {
     private lazy var button1: UIButton = {
         
         var filled = UIButton.Configuration.filled()
-        filled.baseBackgroundColor = .systemGray
+        filled.baseBackgroundColor = UIColor(named: "ButtonColor")
         filled.titlePadding = 8
         filled.title = "Show post 1"
         filled.cornerStyle = .medium
@@ -31,7 +31,7 @@ class FeedViewController: UIViewController {
  
     private lazy var button2: UIButton = {
         var filled = UIButton.Configuration.filled()
-        filled.baseBackgroundColor = .systemGray
+        filled.baseBackgroundColor = UIColor(named: "ButtonColor")
         filled.titlePadding = 8
         filled.title = "Show post 2"
         filled.cornerStyle = .medium
@@ -67,18 +67,17 @@ class FeedViewController: UIViewController {
             
         view.backgroundColor = .systemGray3
         
-        //navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Info", style: .plain, target: self, action: #selector(showInfoViewController))
-        //navigationItem.rightBarButtonItem?.tintColor = .white
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Info", style: .plain, target: self, action: #selector(showInfoViewController))
+        navigationItem.rightBarButtonItem?.tintColor = .white
         
-        //stackView.addArrangedSubview(button1)
-        //stackView.addArrangedSubview(button2)
-        //view.addSubview(stackView)
+        stackView.addArrangedSubview(button1)
+        stackView.addArrangedSubview(button2)
+        view.addSubview(stackView)
         
-        //NSLayoutConstraint.activate([
-        //    stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-        //    stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),           //stackView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            //stackView.leftAnchor.constraint(equalTo: view.leftAnchor),
-        //])
+        NSLayoutConstraint.activate([
+            stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+        ])
 
     }
     
