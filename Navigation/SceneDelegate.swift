@@ -1,8 +1,8 @@
 //
 //  SceneDelegate.swift
-//  Netology_IB_Instruments
+//  Navigation
 //
-//  Created by Наталья Босякова on 14.08.2022.
+//  Created by Наталья Босякова on 22.08.2022.
 //
 
 import UIKit
@@ -16,7 +16,38 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        guard let _ = (scene as? UIWindowScene) else { return }
+        //guard let _ = (scene as? UIWindowScene) else { return }
+        
+        //
+        guard let windowScene = (scene as? UIWindowScene) else { return }
+
+        self.window = UIWindow(windowScene: windowScene)
+        
+        let feed = UINavigationController()
+        let profile = UINavigationController()
+
+        let feedViewController = FeedViewController()
+        let profileViewController = ProfileViewController()
+                
+        let tabBarController = UITabBarController()
+        
+        tabBarController.viewControllers = [feed, profile]
+        UITabBar.appearance().tintColor = .white
+        UITabBar.appearance().backgroundColor = .gray
+        
+        feed.tabBarItem.title = "Feed"
+        feed.tabBarItem.image = UIImage(systemName: "newspaper.fill")
+        
+        profile.tabBarItem.title = "Profile"
+        profile.tabBarItem.image = UIImage(systemName: "person.circle.fill")
+        
+        feed.viewControllers.append(feedViewController)
+        profile.viewControllers.append(profileViewController)
+   
+        self.window?.rootViewController = tabBarController
+        self.window?.makeKeyAndVisible()
+        //
+        
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
