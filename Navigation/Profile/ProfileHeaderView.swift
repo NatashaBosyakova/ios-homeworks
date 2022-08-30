@@ -19,8 +19,8 @@ class ProfileHeaderView: UIView {
     
     private lazy var imageView: UIImageView = {
         
-        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 0, height: 0));
-        imageView.image = UIImage(named: "ProfileImage");
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "ProfileImage")
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = imageSize / 2
         imageView.layer.borderWidth = 3
@@ -31,7 +31,7 @@ class ProfileHeaderView: UIView {
     }()
     
     private lazy var labelName: UILabel = {
-        let labelName = UILabel(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        let labelName = UILabel()
         labelName.text = "Natasha"
         labelName.font = UIFont.boldSystemFont(ofSize: 18)
         labelName.textColor = .black
@@ -41,7 +41,7 @@ class ProfileHeaderView: UIView {
     }()
     
     private lazy var labelStatus: UILabel = {
-        let labelStatus = UILabel(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        let labelStatus = UILabel()
         labelStatus.text = "learning iOS"
         labelStatus.font = UIFont.systemFont(ofSize: 14)
         labelStatus.textColor = .gray
@@ -52,7 +52,7 @@ class ProfileHeaderView: UIView {
     
     private lazy var textStatus: UITextField = {
     
-        let textStatus = UITextField(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        let textStatus = UITextField()
         textStatus.text = "learning iOS"
         textStatus.font = UIFont.systemFont(ofSize: 15)
         textStatus.textColor = .black
@@ -69,7 +69,7 @@ class ProfileHeaderView: UIView {
     }()
     
     private lazy var button: UIButton = {
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        let button = UIButton()
         button.backgroundColor = UIColor(named: "ButtonColor")
         button.layer.cornerRadius = 4
         button.setTitle("Set status", for: .normal)
@@ -83,7 +83,9 @@ class ProfileHeaderView: UIView {
         return button
     }()
     
-    override func draw(_ rect: CGRect) {
+    override init(frame: CGRect) {
+        
+        super.init(frame: frame)
                 
         self.addSubview(imageView)
         self.addSubview(labelName)
@@ -92,6 +94,10 @@ class ProfileHeaderView: UIView {
         self.addSubview(button)
         resizeView()
         
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     @objc func showStatus() {
@@ -109,30 +115,22 @@ class ProfileHeaderView: UIView {
             imageView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 16),
             imageView.heightAnchor.constraint(equalToConstant: imageSize),
             imageView.widthAnchor.constraint(equalToConstant: imageSize),
-       ])
-        
-        NSLayoutConstraint.activate([
+
             labelName.topAnchor.constraint(equalTo: self.topAnchor, constant: 27),
             labelName.leftAnchor.constraint(equalTo: imageView.rightAnchor, constant: 16),
             labelName.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -16),
             labelName.heightAnchor.constraint(equalToConstant: 18),
-       ])
-        
-        NSLayoutConstraint.activate([
+ 
             labelStatus.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: -28),
             labelStatus.leftAnchor.constraint(equalTo: imageView.rightAnchor, constant: 16),
             labelStatus.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -16),
             labelStatus.heightAnchor.constraint(equalToConstant: 14),
-        ])
-        
-        NSLayoutConstraint.activate([
+
             textStatus.topAnchor.constraint(equalTo: labelStatus.bottomAnchor, constant: 8),
             textStatus.leftAnchor.constraint(equalTo: imageView.rightAnchor, constant: 16),
             textStatus.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -16),
             textStatus.heightAnchor.constraint(equalToConstant: 40),
-        ])
 
-        NSLayoutConstraint.activate([
             button.topAnchor.constraint(equalTo: textStatus.bottomAnchor, constant: 16),
             button.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 16),
             button.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -16),

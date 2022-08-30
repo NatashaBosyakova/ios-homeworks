@@ -43,7 +43,7 @@ class FeedViewController: UIViewController {
     }()
     
     private lazy var stackView: UIStackView = {
-        let stackView = UIStackView(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
+        let stackView = UIStackView()
         stackView.alignment = .center
         stackView.axis = .vertical
         stackView.spacing = 10
@@ -66,19 +66,25 @@ class FeedViewController: UIViewController {
         super.viewDidLoad()
             
         view.backgroundColor = .systemGray3
-        
+
+        addSubviews()
+        setConstraints()        
+    }
+    
+    private func addSubviews() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Info", style: .plain, target: self, action: #selector(showInfoViewController))
         navigationItem.rightBarButtonItem?.tintColor = .white
         
         stackView.addArrangedSubview(button1)
         stackView.addArrangedSubview(button2)
         view.addSubview(stackView)
-        
+    }
+    
+    private func setConstraints() {
         NSLayoutConstraint.activate([
             stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
         ])
-
     }
     
     @objc func showPostViewController(sender: UIButton!) {
