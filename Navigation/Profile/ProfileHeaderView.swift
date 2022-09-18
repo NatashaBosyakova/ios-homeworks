@@ -53,7 +53,7 @@ class ProfileHeaderView: UIView {
     private lazy var textStatus: UITextField = {
     
         let textStatus = UITextField()
-        textStatus.text = "learning iOS"
+        textStatus.placeholder = "learning iOS"
         textStatus.font = UIFont.systemFont(ofSize: 15)
         textStatus.textColor = .black
         textStatus.backgroundColor = .white

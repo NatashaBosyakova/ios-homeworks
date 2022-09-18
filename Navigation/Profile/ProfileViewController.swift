@@ -10,8 +10,10 @@ import UIKit
 class ProfileViewController: UIViewController {
 
     private let profileHeaderView: ProfileHeaderView = {
-        return ProfileHeaderView()
-    }()
+        let profileHeaderView = ProfileHeaderView()
+        profileHeaderView.translatesAutoresizingMaskIntoConstraints = false
+        return profileHeaderView
+   }()
 
     private lazy var newButton: UIButton = {
         let button = UIButton()
@@ -33,9 +35,7 @@ class ProfileViewController: UIViewController {
     
     private func addSubviews() {
         view.addSubview(self.profileHeaderView)
-        profileHeaderView.translatesAutoresizingMaskIntoConstraints = false
-        
-        view.addSubview(newButton)
+        view.addSubview(self.newButton)
     }
     
     private func setConstraints() {
@@ -43,7 +43,7 @@ class ProfileViewController: UIViewController {
             profileHeaderView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             profileHeaderView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0),
             profileHeaderView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0),
-            profileHeaderView.heightAnchor.constraint(equalToConstant: 200),
+            profileHeaderView.heightAnchor.constraint(equalToConstant: 216),
 
             newButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             newButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0),
