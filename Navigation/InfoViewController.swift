@@ -13,7 +13,7 @@ class InfoViewController: UIViewController {
         let button = UIButton()
         button.backgroundColor = .systemGray4
         button.layer.cornerRadius = 5
-        button.contentEdgeInsets = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0 )
+        button.contentEdgeInsets = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Show alert", for: .normal)
         button.addTarget(self, action: #selector(showAlert), for: .touchUpInside)
