@@ -22,26 +22,43 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let profile = UINavigationController()
 
         let feedViewController = FeedViewController()
-        let profileViewController = ProfileViewController()
+        let logInViewController = LogInViewController()
                 
         let tabBarController = UITabBarController()
         
         tabBarController.viewControllers = [feed, profile]
-        UITabBar.appearance().tintColor = .white
-        UITabBar.appearance().backgroundColor = .gray
+        UITabBar.appearance().tintColor = UIColor(named: "color")
+        UITabBar.appearance().backgroundColor = .systemGray6
+        UITabBar.appearance().barTintColor = .systemGray3
         
+        tabBarController.tabBar.layer.borderWidth = 1
+        tabBarController.tabBar.layer.borderColor = UIColor.systemGray4.cgColor
+
+        logInViewController.tabBarHeight = tabBarController.tabBar.frame.height
+
         feed.tabBarItem.title = "Feed"
-        feed.tabBarItem.image = UIImage(systemName: "newspaper.fill")
+        feed.tabBarItem.image = UIImage(systemName: "house.fill")
         
         profile.tabBarItem.title = "Profile"
-        profile.tabBarItem.image = UIImage(systemName: "person.circle.fill")
+        profile.tabBarItem.image = UIImage(systemName: "person.fill")
         
         feed.viewControllers.append(feedViewController)
-        profile.viewControllers.append(profileViewController)
+        profile.viewControllers.append(logInViewController)
    
         self.window?.rootViewController = tabBarController
         self.window?.makeKeyAndVisible()
         
+    }
+    
+    func getImageWithColor(color: UIColor, size: CGSize) -> UIImage
+    {
+        let rect = CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: size.width, height: size.height))
+        UIGraphicsBeginImageContextWithOptions(size, false, 0)
+        color.setFill()
+        UIRectFill(rect)
+        let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return image
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
