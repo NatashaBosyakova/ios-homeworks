@@ -9,10 +9,10 @@ import UIKit
 
 class PostViewController: UIViewController {
     
-    var post: Post
+    var post: Post0
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        self.post = Post(text: "")
+        self.post = Post0(text: "")
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
     

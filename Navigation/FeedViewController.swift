@@ -7,13 +7,13 @@
 
 import UIKit
 
-struct Post {
+struct Post0 {
     var text: String
 }
 
 class FeedViewController: UIViewController {
     
-    var post: Post
+    var post: Post0
     
     private lazy var button1: UIButton = {
         
@@ -54,7 +54,7 @@ class FeedViewController: UIViewController {
     }()
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        self.post = Post(text: "Some post (title from FeedViewController)")
+        self.post = Post0(text: "Some post (title from FeedViewController)")
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
     

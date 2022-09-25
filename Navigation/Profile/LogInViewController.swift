@@ -29,7 +29,7 @@ class LogInViewController: UIViewController {
         stackView.axis = .vertical
         stackView.layer.borderColor = UIColor.systemGray4.cgColor
         stackView.layer.cornerRadius = 10.0
-        stackView.layer.borderWidth = 1
+        stackView.layer.borderWidth = 0.5
         stackView.clipsToBounds = true
         stackView.spacing = -1
         stackView.distribution = .fillEqually
@@ -52,10 +52,12 @@ class LogInViewController: UIViewController {
         textField.layer.backgroundColor = UIColor.systemGray6.cgColor
         textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: 50))
         textField.leftViewMode = .always
-        textField.layer.borderColor = UIColor.systemGray4.cgColor
-        textField.layer.borderWidth = 1
+        textField.layer.borderColor = UIColor.lightGray.cgColor
+        textField.layer.borderWidth = 0.5
         textField.tag = 0
         textField.placeholder = "Login"
+        textField.textColor = .black
+        textField.autocapitalizationType = .none
         
         textField.clearButtonMode = .whileEditing
         
@@ -68,11 +70,13 @@ class LogInViewController: UIViewController {
         textField.layer.backgroundColor = UIColor.systemGray6.cgColor
         textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: 50))
         textField.leftViewMode = .always
-        textField.layer.borderColor = UIColor.systemGray4.cgColor
-        textField.layer.borderWidth = 1
+        textField.layer.borderColor = UIColor.lightGray.cgColor
+        textField.layer.borderWidth = 0.5
         textField.tag = 1
         textField.placeholder = "Password"
-        
+        textField.textColor = .black
+        textField.autocapitalizationType = .none
+
         textField.isSecureTextEntry = true
         
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -132,14 +136,14 @@ class LogInViewController: UIViewController {
     private func stackViewConstraints() -> [NSLayoutConstraint] {
         
         return [
-            self.stackView.centerYAnchor.constraint(equalTo: self.scrollView.centerYAnchor),
-            self.stackView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 10),
-            self.stackView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -10),
+            self.stackView.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: 340),
+            self.stackView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 16),
+            self.stackView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -16),
             self.stackView.heightAnchor.constraint(equalToConstant: 100),
 
-            self.button.topAnchor.constraint(equalTo: self.stackView.bottomAnchor, constant: 10),
-            self.button.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 10),
-            self.button.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -10),
+            self.button.topAnchor.constraint(equalTo: self.stackView.bottomAnchor, constant: 16),
+            self.button.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 16),
+            self.button.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -16),
             self.button.heightAnchor.constraint(equalToConstant: 50),
             
             self.imageViewCenter.topAnchor.constraint(equalTo: self.view.topAnchor),
@@ -147,8 +151,8 @@ class LogInViewController: UIViewController {
 
             self.imageView.centerXAnchor.constraint(equalTo: self.scrollView.centerXAnchor),
             self.imageView.centerYAnchor.constraint(equalTo: self.imageViewCenter.centerYAnchor),
-            self.imageView.heightAnchor.constraint(equalToConstant: 80),
-            self.imageView.widthAnchor.constraint(equalToConstant: 80),
+            self.imageView.heightAnchor.constraint(equalToConstant: 100),
+            self.imageView.widthAnchor.constraint(equalToConstant: 100),
         
         ]
     }

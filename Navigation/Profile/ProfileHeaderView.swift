@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProfileHeaderView: UIView {
+class ProfileHeaderView: UITableViewHeaderFooterView { //UIView {
     
     private var statusText: String = {
         return "learning iOS"
@@ -83,9 +83,24 @@ class ProfileHeaderView: UIView {
         return button
     }()
     
-    override init(frame: CGRect) {
+    /*override init(frame: CGRect) {
         
         super.init(frame: frame)
+                
+        self.addSubview(imageView)
+        self.addSubview(labelName)
+        self.addSubview(labelStatus)
+        self.addSubview(textStatus)
+        self.addSubview(button)
+        resizeView()
+        
+    }*/
+    
+    override init(reuseIdentifier: String?) {
+        
+        super.init(reuseIdentifier: reuseIdentifier)
+        
+        self.backgroundColor = .white
                 
         self.addSubview(imageView)
         self.addSubview(labelName)
