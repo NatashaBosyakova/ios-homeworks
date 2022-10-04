@@ -34,8 +34,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         tabBarController.tabBar.layer.borderWidth = 1
         tabBarController.tabBar.layer.borderColor = UIColor.systemGray4.cgColor
 
-        logInViewController.tabBarHeight = tabBarController.tabBar.frame.height
-
         feed.tabBarItem.title = "Feed"
         feed.tabBarItem.image = UIImage(systemName: "house.fill")
         

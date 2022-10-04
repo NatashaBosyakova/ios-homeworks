@@ -6,13 +6,14 @@
 //
 
 import UIKit
+import StorageService
 
 class ProfileViewController: UIViewController {
     
     private var posts: [Post] = [Post(index: 0), Post(index: 1), Post(index: 2), Post(index: 3)]
     
     private lazy var tableView: UITableView = {
-        let tableView = UITableView()
+        let tableView = UITableView(frame: CGRectZero, style: .grouped)
         tableView.dataSource = self
         tableView.delegate = self
         tableView.rowHeight = UITableView.automaticDimension
@@ -36,7 +37,9 @@ class ProfileViewController: UIViewController {
     }
 
     private func setupView() {
+        
         self.view.backgroundColor = .systemBackground
+        
         self.view.addSubview(self.tableView)
         NSLayoutConstraint.activate([
             self.tableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),

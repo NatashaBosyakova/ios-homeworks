@@ -8,9 +8,7 @@
 import UIKit
 
 class LogInViewController: UIViewController {
-    
-    public var tabBarHeight: CGFloat = {return CGFloat(0)}()
-    
+        
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -99,10 +97,20 @@ class LogInViewController: UIViewController {
     override func viewDidLoad() {
                 
         super.viewDidLoad()
-        self.navigationController?.navigationBar.isHidden = true
-        
-        self.view.backgroundColor = .white
         self.setupGestures()
+        
+        #if DEBUG
+        self.view.backgroundColor = .white
+        #else
+        self.view.backgroundColor = .systemGray5
+        #endif
+        
+        addSubviews()
+        setConstraints()
+    }
+    
+    private func addSubviews() {
+        self.navigationController?.navigationBar.isHidden = true
         
         self.stackView.addArrangedSubview(self.loginTextField)
         self.stackView.addArrangedSubview(self.passwordTextField)
@@ -113,29 +121,16 @@ class LogInViewController: UIViewController {
         self.scrollView.addSubview(self.imageViewCenter)
         self.scrollView.addSubview(self.stackView)
         self.scrollView.addSubview(self.button)
-        
-        let scrollViewConstraints = self.scrollViewConstraints()
-        let stackViewConstraints = self.stackViewConstraints()
-        NSLayoutConstraint.activate(
-            scrollViewConstraints
-            + stackViewConstraints
-        )
-   }
+    }
     
-    private func scrollViewConstraints() -> [NSLayoutConstraint] {
+    private func setConstraints() {
         
-        return [
+        NSLayoutConstraint.activate([
             self.scrollView.topAnchor.constraint(equalTo: self.view.topAnchor),
             self.scrollView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             self.scrollView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            //self.scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -self.tabBarHeight),
             self.scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
-       ]
-    }
-    
-    private func stackViewConstraints() -> [NSLayoutConstraint] {
-        
-        return [
+
             self.stackView.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: 340),
             self.stackView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 16),
             self.stackView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -16),
@@ -153,8 +148,7 @@ class LogInViewController: UIViewController {
             self.imageView.centerYAnchor.constraint(equalTo: self.imageViewCenter.centerYAnchor),
             self.imageView.heightAnchor.constraint(equalToConstant: 100),
             self.imageView.widthAnchor.constraint(equalToConstant: 100),
-        
-        ]
+        ])
     }
     
     private func setupGestures() {
@@ -184,6 +178,9 @@ class LogInViewController: UIViewController {
                 keyboardHeight -
                 self.view.safeAreaInsets.top
             
+            print("y keyboard: \(keyboardOriginY)")
+            print("y button: \(keyboardOriginY)")
+
             let yOffset = keyboardOriginY < loginButtonBottomPointY
             ? loginButtonBottomPointY - keyboardOriginY + 16
             : 0
