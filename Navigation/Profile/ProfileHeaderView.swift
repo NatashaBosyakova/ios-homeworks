@@ -99,8 +99,6 @@ class ProfileHeaderView: UITableViewHeaderFooterView { //UIView {
     override init(reuseIdentifier: String?) {
         
         super.init(reuseIdentifier: reuseIdentifier)
-        
-        self.backgroundColor = .white
                 
         self.addSubview(imageView)
         self.addSubview(labelName)

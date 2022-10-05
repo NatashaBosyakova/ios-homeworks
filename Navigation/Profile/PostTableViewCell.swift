@@ -67,6 +67,11 @@ class PostTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.setupView()
+    }
+    
     func setup(post: Post) {
         self.postImageView.image = UIImage(named: post.image)
         self.authorLabel.text = post.author
@@ -82,11 +87,6 @@ class PostTableViewCell: UITableViewCell {
         self.descriptionLabel.text = nil
         self.likesLabel.text = nil
         self.viewsLabel.text = nil
-    }
-    
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.setupView()
     }
     
     private func setupView() {
