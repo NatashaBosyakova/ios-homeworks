@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProfileHeaderView: UITableViewHeaderFooterView { //UIView {
+class ProfileHeaderView: UITableViewHeaderFooterView {
     
     private var statusText: String = {
         return "learning iOS"
@@ -17,7 +17,7 @@ class ProfileHeaderView: UITableViewHeaderFooterView { //UIView {
         return CGFloat(100)
     }()
     
-    private lazy var imageView: UIImageView = {
+    public lazy var imageView: UIImageView = {
         
         let imageView = UIImageView()
         imageView.image = UIImage(named: "ProfileImage")
@@ -28,6 +28,7 @@ class ProfileHeaderView: UITableViewHeaderFooterView { //UIView {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
         return imageView
+
     }()
     
     private lazy var labelName: UILabel = {
@@ -83,19 +84,6 @@ class ProfileHeaderView: UITableViewHeaderFooterView { //UIView {
         return button
     }()
     
-    /*override init(frame: CGRect) {
-        
-        super.init(frame: frame)
-                
-        self.addSubview(imageView)
-        self.addSubview(labelName)
-        self.addSubview(labelStatus)
-        self.addSubview(textStatus)
-        self.addSubview(button)
-        resizeView()
-        
-    }*/
-    
     override init(reuseIdentifier: String?) {
         
         super.init(reuseIdentifier: reuseIdentifier)
@@ -105,6 +93,7 @@ class ProfileHeaderView: UITableViewHeaderFooterView { //UIView {
         self.addSubview(labelStatus)
         self.addSubview(textStatus)
         self.addSubview(button)
+        
         resizeView()
         
     }
@@ -120,15 +109,27 @@ class ProfileHeaderView: UITableViewHeaderFooterView { //UIView {
     @objc func changeStatus(_ textField: UITextField) {
         self.statusText = textStatus.text!
     }
+
+    @objc func parentViewController() -> UIViewController? {
+        var parentResponder: UIResponder? = self.next
+        while parentResponder != nil {
+            if let viewController = parentResponder as? UIViewController {
+                return viewController
+            }
+            parentResponder = parentResponder?.next
+        }
+        return nil
+    }
     
     func resizeView() {
         
         NSLayoutConstraint.activate([
+           
             imageView.topAnchor.constraint(equalTo: self.topAnchor, constant: 16),
             imageView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 16),
             imageView.heightAnchor.constraint(equalToConstant: imageSize),
             imageView.widthAnchor.constraint(equalToConstant: imageSize),
-
+            
             labelName.topAnchor.constraint(equalTo: self.topAnchor, constant: 27),
             labelName.leftAnchor.constraint(equalTo: imageView.rightAnchor, constant: 16),
             labelName.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -16),

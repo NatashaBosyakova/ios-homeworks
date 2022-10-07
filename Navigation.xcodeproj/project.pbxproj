@@ -16,6 +16,7 @@
 		D820367E28EE0F51001D2D7B /* MyGallery in Resources */ = {isa = PBXBuildFile; fileRef = D820367D28EE0F51001D2D7B /* MyGallery */; };
 		D820368028EE11F2001D2D7B /* PhotosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820367F28EE11F2001D2D7B /* PhotosViewController.swift */; };
 		D820368228EE17C0001D2D7B /* PhotosCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820368128EE17C0001D2D7B /* PhotosCollectionViewCell.swift */; };
+		D820368428F03BAF001D2D7B /* AvatarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820368328F03BAF001D2D7B /* AvatarViewController.swift */; };
 		D82864D228B54873003A5807 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D82864D128B54873003A5807 /* FeedViewController.swift */; };
 		D82864D428B54889003A5807 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D82864D328B54889003A5807 /* ProfileViewController.swift */; };
 		D82864D628B562CE003A5807 /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D82864D528B562CE003A5807 /* InfoViewController.swift */; };
@@ -62,6 +63,7 @@
 		D820367D28EE0F51001D2D7B /* MyGallery */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MyGallery; sourceTree = SOURCE_ROOT; };
 		D820367F28EE11F2001D2D7B /* PhotosViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosViewController.swift; sourceTree = "<group>"; };
 		D820368128EE17C0001D2D7B /* PhotosCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosCollectionViewCell.swift; sourceTree = "<group>"; };
+		D820368328F03BAF001D2D7B /* AvatarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarViewController.swift; sourceTree = "<group>"; };
 		D82864D128B54873003A5807 /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		D82864D328B54889003A5807 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		D82864D528B562CE003A5807 /* InfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
@@ -154,6 +156,7 @@
 				D820367B28EDEF55001D2D7B /* MyGallery.swift */,
 				D820367F28EE11F2001D2D7B /* PhotosViewController.swift */,
 				D820368128EE17C0001D2D7B /* PhotosCollectionViewCell.swift */,
+				D820368328F03BAF001D2D7B /* AvatarViewController.swift */,
 			);
 			path = Navigation;
 			sourceTree = "<group>";
@@ -292,6 +295,7 @@
 				D82864D228B54873003A5807 /* FeedViewController.swift in Sources */,
 				D8F2E26728B407B30065E033 /* AppDelegate.swift in Sources */,
 				D8F2E26928B407B30065E033 /* SceneDelegate.swift in Sources */,
+				D820368428F03BAF001D2D7B /* AvatarViewController.swift in Sources */,
 				D82864D928B635F6003A5807 /* ProfileHeaderView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

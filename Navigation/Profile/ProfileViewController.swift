@@ -42,13 +42,13 @@ class ProfileViewController: UIViewController {
     private func setupView() {
         
         self.view.backgroundColor = .systemBackground
-        
         self.view.addSubview(self.tableView)
+        
         NSLayoutConstraint.activate([
             self.tableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
             self.tableView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
             self.tableView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
-            self.tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            self.tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor), 
         ])
     }
 }
@@ -60,6 +60,12 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
             guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "HeaderView") as? ProfileHeaderView else { return nil }
             headerView.heightAnchor.constraint(equalToConstant: 230).isActive = true
             headerView.clipsToBounds = true
+            
+            // привяжем обработку нажатия
+            let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(showAvatarViewController))
+            headerView.imageView.isUserInteractionEnabled = true
+            headerView.imageView.addGestureRecognizer(tapGestureRecognizer)
+            
             return headerView
         }
         
@@ -93,6 +99,13 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
             navigationController?.pushViewController(controller, animated: true)
         }
         
+    }
+    
+    @objc func showAvatarViewController() {
+        let controller = AvatarViewController()
+        controller.offset = -self.tableView.contentOffset.y + 16
+        controller.modalPresentationStyle = .overFullScreen
+        self.present(controller, animated: false)
     }
 
 }

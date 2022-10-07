@@ -7,89 +7,8 @@
 
 import UIKit
 
-/*
 class PhotosViewController: UIViewController {
-    
-    let gallery: MyGallery
-    
-    private lazy var layout: UICollectionViewFlowLayout = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        layout.minimumInteritemSpacing = 10
-        layout.minimumLineSpacing = 20
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
-//        layout.estimatedItemSize = CGSize(width: UIScreen.main.bounds.width - 32, height: 50)
-        return layout
-    }()
         
-    private lazy var collectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: self.layout)
-        collectionView.register(PhotosCollectionViewCell.self, forCellWithReuseIdentifier: "CustomCell")
-        collectionView.delegate = self
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        return collectionView
-    }()
-    
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        self.gallery = MyGallery()
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        self.setupNavigationBar()
-        self.setupView()
-    }
-    
-    private func setupNavigationBar() {
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationItem.title = "Photos"
-    }
-    
-    private func setupView() {
-        self.view.backgroundColor = .systemBackground
-        self.view.addSubview(self.collectionView)
-        
-        NSLayoutConstraint.activate([
-            self.collectionView.topAnchor.constraint(equalTo: self.view.topAnchor),
-            self.collectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
-            self.collectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
-            self.collectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
-        ])
-    }
-}
-
-extension PhotosViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        7
-        //self.gallery.getCount()
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomCell", for: indexPath) as? PhotosCollectionViewCell
-       
-        cell!.layer.cornerRadius = 8
-        cell!.clipsToBounds = true
-        cell!.backgroundColor = .systemRed
-        cell!.setup(with: self.gallery.getImage(index: indexPath.row))
-        return cell!
-    }
-    
-}
-
-*/
-
-
-class PhotosViewController: UIViewController {
-    
-    
     let gallery: MyGallery
     
     private enum Constants {
@@ -101,7 +20,7 @@ class PhotosViewController: UIViewController {
         layout.scrollDirection = .vertical
         layout.minimumInteritemSpacing = 8
         layout.minimumLineSpacing = 8
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
+        layout.sectionInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
         return layout
     }()
     
