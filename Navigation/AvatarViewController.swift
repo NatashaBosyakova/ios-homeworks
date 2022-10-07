@@ -13,8 +13,11 @@ class AvatarViewController: UIViewController {
     
     public var offset: CGFloat
     
+    var avatarCenter: CGPoint
+    
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         self.offset = 0
+        self.avatarCenter = CGPoint(x: 0, y: 0)
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
     
@@ -55,7 +58,32 @@ class AvatarViewController: UIViewController {
         return imageView
     }()
     
-    private func animate() {
+    private func animateBack() {
+        
+        self.avatarWidthConstaint?.constant = 100
+        self.avatarHeightConstaint?.constant = 100
+        
+        let animator1 = UIViewPropertyAnimator(duration: 0.5, curve: .easeInOut) {
+            self.animateAvatar.center = CGPoint(x: self.avatarCenter.x, y: self.avatarCenter.y)
+            self.animateAvatar.layer.cornerRadius = 50
+            self.view.backgroundColor = UIColor.white.withAlphaComponent(0.0)
+        }
+         
+        let animator2 = UIViewPropertyAnimator(duration: 0.3, curve: .easeInOut) {
+            self.animateCloseButton.tintColor = UIColor.black.withAlphaComponent(0.0)
+        }
+        
+        animator2.startAnimation(afterDelay: 0.0)
+        UIView.animate(withDuration: 0.5, delay: 0.3, options: .curveEaseInOut) {
+            self.view.layoutIfNeeded()
+        }
+        animator1.startAnimation(afterDelay: 0.3)
+        
+    }
+    
+    private func animateForward() {
+        
+        avatarCenter = self.animateAvatar.center
         
         self.avatarWidthConstaint?.constant = self.view.bounds.width
         self.avatarHeightConstaint?.constant = self.view.bounds.width
@@ -90,7 +118,7 @@ class AvatarViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        animate()
+        animateForward()
     }
         
     func setupView() {
@@ -118,7 +146,11 @@ class AvatarViewController: UIViewController {
     }
 
     @objc func closeWindow() {
-        self.dismiss(animated: false)
+        animateBack()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+            self.dismiss(animated: false)
+        }
+        
     }
     
 }
