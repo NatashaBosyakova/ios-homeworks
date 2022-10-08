@@ -8,6 +8,7 @@
 import UIKit
 import StorageService
 
+
 class ProfileViewController: UIViewController {
     
     private var posts: [Post] = [Post(index: 0), Post(index: 1), Post(index: 2), Post(index: 3)]

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 class ProfileHeaderView: UITableViewHeaderFooterView {
     
@@ -122,7 +123,41 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
     }
     
     func resizeView() {
+   
+        imageView.snp.makeConstraints { make in
+            make.top.left.equalToSuperview().offset(16)
+            make.width.height.equalTo(imageSize)
+        }
         
+        labelName.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(27)
+            make.left.equalTo(imageView.snp.right).offset(16)
+            make.right.equalToSuperview().offset(-16)
+            make.height.equalTo(18)
+        }
+        
+        labelStatus.snp.makeConstraints { make in
+            make.top.equalTo(imageView.snp.bottom).offset(-28)
+            make.left.equalTo(imageView.snp.right).offset(16)
+            make.right.equalToSuperview().offset(-16)
+            make.height.equalTo(14)
+        }
+        
+        textStatus.snp.makeConstraints { make in
+            make.top.equalTo(labelStatus.snp.bottom).offset(8)
+            make.left.equalTo(imageView.snp.right).offset(16)
+            make.right.equalToSuperview().offset(-16)
+            make.height.equalTo(40)
+        }
+        
+        button.snp.makeConstraints { make in
+            make.top.equalTo(textStatus.snp.bottom).offset(16)
+            make.left.equalToSuperview().offset(16)
+            make.right.equalToSuperview().offset(-16)
+            make.height.equalTo(50)
+        }
+        
+        /*
         NSLayoutConstraint.activate([
            
             imageView.topAnchor.constraint(equalTo: self.topAnchor, constant: 16),
@@ -150,6 +185,7 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
             button.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -16),
             button.heightAnchor.constraint(equalToConstant: 50),
         ])
+        */
         
     }
 
