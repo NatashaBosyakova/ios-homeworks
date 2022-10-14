@@ -5,8 +5,6 @@
 //  Created by Наталья Босякова on 14.10.2022.
 //
 
-
-
 import UIKit
 
 class User {
@@ -53,3 +51,43 @@ class TestUserService: UserService {
     }
 }
 
+class Checker {
+    
+    static let shared: Checker = {
+        return Checker()
+    }()
+    
+    private let login: String = {return "Natasha"}()
+    private let password: String = {return "123456"}()
+    
+    private init() {
+        
+    }
+    
+    func check(login: String, password: String) -> Bool {
+        return self.login == login && self.password == password
+    }
+}
+
+protocol LoginViewControllerDelegate {
+    func check(login: String, password: String) -> Bool
+}
+
+struct LoginInspector: LoginViewControllerDelegate {
+    
+    func check(login: String, password: String) -> Bool {
+        let checker = Checker.shared
+        return checker.check(login: login, password: password)
+    }
+}
+
+protocol LoginFactory {
+    func makeLoginInspector() -> LoginInspector
+}
+
+struct MyLoginFactory: LoginFactory {
+    
+    func makeLoginInspector() -> LoginInspector {
+        return LoginInspector()
+    }
+}

@@ -23,6 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         let feedViewController = FeedViewController()
         let logInViewController = LogInViewController()
+        logInViewController.loginDelegate = MyLoginFactory().makeLoginInspector()
                 
         let tabBarController = UITabBarController()
         

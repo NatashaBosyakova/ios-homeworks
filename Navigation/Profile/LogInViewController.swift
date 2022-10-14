@@ -93,6 +93,8 @@ class LogInViewController: UIViewController {
         return button
     }()
     
+    var loginDelegate: LoginViewControllerDelegate?
+
     private var login: String?
 
     override func viewDidLoad() {
@@ -203,9 +205,19 @@ class LogInViewController: UIViewController {
         let currentUserService = CurrentUserService()
         #endif
         if let user = currentUserService.getUser(login: loginTextField.text!) {
-            let controller = ProfileViewController()
-            controller.user = user
-            navigationController?.pushViewController(controller, animated: true)
+            
+            if loginDelegate!.check(login: loginTextField.text!, password: passwordTextField.text!) {
+                let controller = ProfileViewController()
+                controller.user = user
+                navigationController?.pushViewController(controller, animated: true)
+            }
+            else {
+                let alert = UIAlertController(title: "Login Failed", message: "Your password is invalid. Please try again.", preferredStyle: UIAlertController.Style.alert)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default))
+                alert.view.tintColor = .black
+                self.present(alert, animated: true, completion: nil)
+
+            }
         }
         else {
             let alert = UIAlertController(title: "Login Failed", message: "Your login is invalid. Please try again.", preferredStyle: UIAlertController.Style.alert)
