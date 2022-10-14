@@ -7,6 +7,7 @@
 
 import UIKit
 
+
 class LogInViewController: UIViewController {
         
     private lazy var scrollView: UIScrollView = {
@@ -177,9 +178,6 @@ class LogInViewController: UIViewController {
             let keyboardOriginY = self.view.frame.height -
                 keyboardHeight -
                 self.view.safeAreaInsets.top
-            
-            print("y keyboard: \(keyboardOriginY)")
-            print("y button: \(keyboardOriginY)")
 
             let yOffset = keyboardOriginY < loginButtonBottomPointY
             ? loginButtonBottomPointY - keyboardOriginY + 16
@@ -199,8 +197,22 @@ class LogInViewController: UIViewController {
     }
     
     @objc func showProfileViewController(sender: UIButton!) {
-        let controller = ProfileViewController()
-        navigationController?.pushViewController(controller, animated: true)
+        #if DEBUG
+        let currentUserService = TestUserService()
+        #else
+        let currentUserService = CurrentUserService()
+        #endif
+        if let user = currentUserService.getUser(login: loginTextField.text!) {
+            let controller = ProfileViewController()
+            controller.user = user
+            navigationController?.pushViewController(controller, animated: true)
+        }
+        else {
+            let alert = UIAlertController(title: "Login Failed", message: "Your login is invalid. Please try again.", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default))
+            alert.view.tintColor = .black
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
 }

@@ -13,6 +13,8 @@ class ProfileViewController: UIViewController {
     
     private var posts: [Post] = [Post(index: 0), Post(index: 1), Post(index: 2), Post(index: 3)]
     
+    var user: User?
+    
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: CGRectZero, style: .grouped)
         tableView.dataSource = self
@@ -25,10 +27,26 @@ class ProfileViewController: UIViewController {
         return tableView
     }()
     
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        self.user = nil
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupNavigationBar()
         self.setupView()
+        
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tap)
+    }
+
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -66,6 +84,8 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
             let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(showAvatarViewController))
             headerView.imageView.isUserInteractionEnabled = true
             headerView.imageView.addGestureRecognizer(tapGestureRecognizer)
+            
+            headerView.setUserData(user: self.user!)
             
             return headerView
         }

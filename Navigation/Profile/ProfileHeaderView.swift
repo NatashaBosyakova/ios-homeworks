@@ -11,7 +11,7 @@ import SnapKit
 class ProfileHeaderView: UITableViewHeaderFooterView {
     
     private var statusText: String = {
-        return "learning iOS"
+        return ""
     }()
     
     private let imageSize: CGFloat = {
@@ -85,6 +85,13 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
         return button
     }()
     
+    func setUserData(user: User) {
+        labelStatus.text = user.status
+        imageView.image = user.avatar
+        labelName.text = user.fullName
+        textStatus.placeholder = user.status
+   }
+    
     override init(reuseIdentifier: String?) {
         
         super.init(reuseIdentifier: reuseIdentifier)
@@ -156,36 +163,6 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
             make.right.equalToSuperview().offset(-16)
             make.height.equalTo(50)
         }
-        
-        /*
-        NSLayoutConstraint.activate([
-           
-            imageView.topAnchor.constraint(equalTo: self.topAnchor, constant: 16),
-            imageView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 16),
-            imageView.heightAnchor.constraint(equalToConstant: imageSize),
-            imageView.widthAnchor.constraint(equalToConstant: imageSize),
-            
-            labelName.topAnchor.constraint(equalTo: self.topAnchor, constant: 27),
-            labelName.leftAnchor.constraint(equalTo: imageView.rightAnchor, constant: 16),
-            labelName.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -16),
-            labelName.heightAnchor.constraint(equalToConstant: 18),
- 
-            labelStatus.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: -28),
-            labelStatus.leftAnchor.constraint(equalTo: imageView.rightAnchor, constant: 16),
-            labelStatus.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -16),
-            labelStatus.heightAnchor.constraint(equalToConstant: 14),
-
-            textStatus.topAnchor.constraint(equalTo: labelStatus.bottomAnchor, constant: 8),
-            textStatus.leftAnchor.constraint(equalTo: imageView.rightAnchor, constant: 16),
-            textStatus.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -16),
-            textStatus.heightAnchor.constraint(equalToConstant: 40),
-
-            button.topAnchor.constraint(equalTo: textStatus.bottomAnchor, constant: 16),
-            button.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 16),
-            button.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -16),
-            button.heightAnchor.constraint(equalToConstant: 50),
-        ])
-        */
         
     }
 
