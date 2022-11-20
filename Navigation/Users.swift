@@ -28,7 +28,12 @@ protocol UserService {
 
 class CurrentUserService: UserService {
     
-    let users: [User] = [User(login: "Natasha", fullName: "Natasha Bosyakova", avatar: UIImage(named: "ProfileImage")!, status: "learning iOS"), User(login: "Anastasia", fullName: "Anastasia Bosyakova", status: "relocating")]
+    let users: [User] =
+        [
+        User(login: "Natasha", fullName: "Natasha Bosyakova", avatar: UIImage(named: "ProfileImage")!, status: "learning iOS"),
+        User(login: "Anastasia", fullName: "Anastasia Bosyakova", status: "relocating"),
+        User(login: "q"),
+       ]
     
     var user: User? = nil    
     
@@ -57,9 +62,11 @@ class Checker {
         return Checker()
     }()
     
-    private let login: String = {return "Natasha"}()
-    private let password: String = {return "123456"}()
-    
+    //private let login: String = {return "Natasha"}()
+    //private let password: String = {return "123456"}()
+    private let login: String = {return "q"}()
+    private let password: String = {return "q"}()
+
     private init() {
         
     }

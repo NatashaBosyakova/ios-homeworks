@@ -29,4 +29,12 @@ class MyGallery {
         }
 
     }
+    
+    func getImages() -> [UIImage] {
+        var userImages: [UIImage] = []
+        for i in 1...getCount() {
+            userImages.append(getImage(index: i))
+        }
+        return userImages
+    }
 }

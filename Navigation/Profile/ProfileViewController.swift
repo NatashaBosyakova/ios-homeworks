@@ -8,7 +8,6 @@
 import UIKit
 import StorageService
 
-
 class ProfileViewController: UIViewController {
     
     private var posts: [Post] = [Post(index: 0), Post(index: 1), Post(index: 2), Post(index: 3)]
@@ -41,8 +40,8 @@ class ProfileViewController: UIViewController {
         self.setupNavigationBar()
         self.setupView()
         
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        view.addGestureRecognizer(tap)
+        //let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        //view.addGestureRecognizer(tap)
     }
 
     @objc func dismissKeyboard() {
@@ -50,7 +49,7 @@ class ProfileViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)        
+        super.viewWillAppear(animated)
         self.setupNavigationBar()
     }
 
@@ -67,7 +66,7 @@ class ProfileViewController: UIViewController {
             self.tableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
             self.tableView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
             self.tableView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
-            self.tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor), 
+            self.tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
         ])
     }
 }
@@ -130,4 +129,5 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
 }
+
 
