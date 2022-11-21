@@ -27,6 +27,8 @@
 		D871506628E0A83500FBEDB8 /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D871506528E0A83500FBEDB8 /* PostTableViewCell.swift */; };
 		D87F3C4428F9AE2C00EB97DB /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = D87F3C4328F9AE2C00EB97DB /* Users.swift */; };
 		D8AFB79A28D7AEFA00FE4B50 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8AFB79928D7AEFA00FE4B50 /* LogInViewController.swift */; };
+		D8B1E208292A89AE00575808 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8B1E207292A89AE00575808 /* CustomButton.swift */; };
+		D8B1E20A292BE1BC00575808 /* FeedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8B1E209292BE1BC00575808 /* FeedModel.swift */; };
 		D8F2E26728B407B30065E033 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8F2E26628B407B30065E033 /* AppDelegate.swift */; };
 		D8F2E26928B407B30065E033 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8F2E26828B407B30065E033 /* SceneDelegate.swift */; };
 		D8F2E26B28B407B30065E033 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8F2E26A28B407B30065E033 /* ViewController.swift */; };
@@ -81,6 +83,8 @@
 		D871506528E0A83500FBEDB8 /* PostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTableViewCell.swift; sourceTree = "<group>"; };
 		D87F3C4328F9AE2C00EB97DB /* Users.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
 		D8AFB79928D7AEFA00FE4B50 /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
+		D8B1E207292A89AE00575808 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
+		D8B1E209292BE1BC00575808 /* FeedModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedModel.swift; sourceTree = "<group>"; };
 		D8F2E26328B407B30065E033 /* Navigation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Navigation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8F2E26628B407B30065E033 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D8F2E26828B407B30065E033 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -202,6 +206,8 @@
 				D820368128EE17C0001D2D7B /* PhotosCollectionViewCell.swift */,
 				D820368328F03BAF001D2D7B /* AvatarViewController.swift */,
 				D87F3C4328F9AE2C00EB97DB /* Users.swift */,
+				D8B1E207292A89AE00575808 /* CustomButton.swift */,
+				D8B1E209292BE1BC00575808 /* FeedModel.swift */,
 			);
 			path = Navigation;
 			sourceTree = "<group>";
@@ -271,7 +277,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1340;
-				LastUpgradeCheck = 1340;
+				LastUpgradeCheck = 1410;
 				TargetAttributes = {
 					D820366B28EC2B89001D2D7B = {
 						CreatedOnToolsVersion = 14.0.1;
@@ -401,6 +407,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D820367C28EDEF55001D2D7B /* MyGallery.swift in Sources */,
+				D8B1E20A292BE1BC00575808 /* FeedModel.swift in Sources */,
 				D820368228EE17C0001D2D7B /* PhotosCollectionViewCell.swift in Sources */,
 				D820368028EE11F2001D2D7B /* PhotosViewController.swift in Sources */,
 				D871506628E0A83500FBEDB8 /* PostTableViewCell.swift in Sources */,
@@ -413,6 +420,7 @@
 				D82864D628B562CE003A5807 /* InfoViewController.swift in Sources */,
 				D82864D228B54873003A5807 /* FeedViewController.swift in Sources */,
 				D8F2E26728B407B30065E033 /* AppDelegate.swift in Sources */,
+				D8B1E208292A89AE00575808 /* CustomButton.swift in Sources */,
 				D8F2E26928B407B30065E033 /* SceneDelegate.swift in Sources */,
 				D820368428F03BAF001D2D7B /* AvatarViewController.swift in Sources */,
 				D82864D928B635F6003A5807 /* ProfileHeaderView.swift in Sources */,
@@ -448,6 +456,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = DD942PZ483;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -489,6 +498,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = DD942PZ483;
 				DYLIB_COMPATIBILITY_VERSION = 1;

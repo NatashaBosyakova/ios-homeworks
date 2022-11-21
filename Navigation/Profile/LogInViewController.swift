@@ -83,6 +83,7 @@ class LogInViewController: UIViewController {
     }()
     
     private lazy var button: UIButton = {
+        
         let button = UIButton()
         button.setTitle("Log In", for: .normal)
         button.setBackgroundImage(UIImage(named: "blue_pixel"), for: .normal)
@@ -90,6 +91,7 @@ class LogInViewController: UIViewController {
         button.clipsToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(showProfileViewController), for: .touchUpInside)
+        
         return button
     }()
     

@@ -40,8 +40,9 @@ class ProfileViewController: UIViewController {
         self.setupNavigationBar()
         self.setupView()
         
-        //let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        //view.addGestureRecognizer(tap)
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tap)
+        tap.cancelsTouchesInView = false
     }
 
     @objc func dismissKeyboard() {

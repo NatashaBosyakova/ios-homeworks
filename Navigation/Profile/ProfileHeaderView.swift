@@ -73,8 +73,8 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
     private lazy var button: UIButton = {
         let button = UIButton()
         button.backgroundColor = UIColor(named: "ButtonColor")
-        button.layer.cornerRadius = 4
         button.setTitle("Set status", for: .normal)
+        button.layer.cornerRadius = 4
         button.layer.shadowColor = UIColor.black.cgColor
         button.layer.shadowOffset = CGSize(width: 4, height: 4)
         button.layer.shadowRadius = 4
