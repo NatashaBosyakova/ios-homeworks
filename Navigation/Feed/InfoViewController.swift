@@ -41,7 +41,7 @@ class InfoViewController: UIViewController {
         ])
     }
     
-    @objc func showAlert(sender: UIButton!) {
+    @objc func showAlert() {
         let alert = UIAlertController(title: "Alert", message: "just for test",         preferredStyle: UIAlertController.Style.alert)
 
         alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default, handler: { _ in

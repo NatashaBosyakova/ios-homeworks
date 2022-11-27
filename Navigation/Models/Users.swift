@@ -32,7 +32,7 @@ class CurrentUserService: UserService {
         [
         User(login: "Natasha", fullName: "Natasha Bosyakova", avatar: UIImage(named: "ProfileImage")!, status: "learning iOS"),
         User(login: "Anastasia", fullName: "Anastasia Bosyakova", status: "relocating"),
-        User(login: "q"),
+        User(login: "Pavel", fullName: "Pavel Zykin", status: "-"),
        ]
     
     var user: User? = nil    
@@ -64,8 +64,8 @@ class Checker {
     
     //private let login: String = {return "Natasha"}()
     //private let password: String = {return "123456"}()
-    private let login: String = {return "q"}()
-    private let password: String = {return "q"}()
+    private let login: String = {return "Natasha"}()
+    private let password: String = {return "123456"}()
 
     private init() {
         

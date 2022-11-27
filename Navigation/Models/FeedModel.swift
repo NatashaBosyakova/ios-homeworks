@@ -9,8 +9,4 @@ import Foundation
 
 class FeedModel {
     let secretWord: String = "Snail"
-    
-    func check(_ word: String) -> Bool {
-        return word == secretWord
-    }
 }

@@ -9,25 +9,25 @@ import UIKit
 
 class CustomButton: UIButton {
     
-    var tapAction: ((_: UIButton?) -> Void)!
+    var tapAction: () -> Void
     
-    init(title: String, backgroundColor: UIColor, tapAction: @escaping (_: UIButton?) -> Void) {
+    init(title: String, backgroundColor: UIColor, tapAction: @escaping () -> Void) {
+        
+        self.tapAction = tapAction
         
         super.init(frame: .zero)
+        
         let config = UIButton.Configuration.gray()
         self.configuration = config
         self.configuration?.title = title
-        self.configuration?.baseForegroundColor = .white
+        self.configuration?.baseForegroundColor = .black
         self.configuration?.baseBackgroundColor = backgroundColor
         
-        self.tapAction = tapAction
         self.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
     }
     
     @objc private func buttonTapped() {
-        if (tapAction != nil) {
-            self.tapAction(self)
-        }
+        tapAction()
     }
     
     required init?(coder: NSCoder) {

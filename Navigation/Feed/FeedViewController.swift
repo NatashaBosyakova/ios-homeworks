@@ -14,6 +14,7 @@ struct Post0 {
 class FeedViewController: UIViewController {
     
     var post: Post0
+    var viewModel: FeedViewModel = FeedViewModel(model: FeedModel())
     
     private lazy var button1: CustomButton = {
                 
@@ -160,7 +161,7 @@ class FeedViewController: UIViewController {
         ])
     }
     
-    @objc func showPostViewController(sender: UIButton!) {
+    @objc func showPostViewController() {
         let controller = PostViewController()
         controller.post = self.post
         navigationController?.pushViewController(controller, animated: true)
@@ -172,21 +173,21 @@ class FeedViewController: UIViewController {
         self.present(controller, animated: true)
     }
     
-    @objc func checkWord(sender: UIButton!) {
+    @objc func checkWord() {
         
         let word = wordField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         
         if word != "" {
             
-            let feedModel = FeedModel()
+            let result : Bool = viewModel.check(word)
                 
-            checkGuessLabel.backgroundColor = feedModel.check(word) ? .green : .red
-            checkGuessLabel.text = feedModel.check(word) ? "✓" : "-"
+            checkGuessLabel.backgroundColor = result ? .green : .red
+            checkGuessLabel.text = result ? "✓" : "-"
             checkGuessLabel.textColor = .white
             
             let alert = UIAlertController(
-                title: feedModel.check(word) ? "Right" : "Wrong",
-                message: feedModel.check(word) ? "Cool" : "Try again.",
+                title: result ? "Right" : "Wrong",
+                message: result ? "Cool!" : "Try again.",
                 preferredStyle: UIAlertController.Style.alert)
             
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default))

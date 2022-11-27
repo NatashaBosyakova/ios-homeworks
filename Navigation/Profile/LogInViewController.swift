@@ -209,9 +209,14 @@ class LogInViewController: UIViewController {
         if let user = currentUserService.getUser(login: loginTextField.text!) {
             
             if loginDelegate!.check(login: loginTextField.text!, password: passwordTextField.text!) {
-                let controller = ProfileViewController()
-                controller.user = user
-                navigationController?.pushViewController(controller, animated: true)
+                //let controller = ProfileViewController()
+                //controller.user = user
+                //navigationController?.pushViewController(controller, animated: true)
+                
+                // меняем навигационный переход на обращение к координатору
+                let сoordinator = ProfileCoordinator(transitionHandler: navigationController)
+                сoordinator.start(user: user)
+
             }
             else {
                 let alert = UIAlertController(title: "Login Failed", message: "Your password is invalid. Please try again.", preferredStyle: UIAlertController.Style.alert)

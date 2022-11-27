@@ -11,12 +11,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
+    var rootCoordinator: AppCoordinator?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
 
         guard let windowScene = (scene as? UIWindowScene) else { return }
 
         self.window = UIWindow(windowScene: windowScene)
+        
+        /*
         
         let feed = UINavigationController()
         let profile = UINavigationController()
@@ -45,6 +48,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         profile.viewControllers.append(logInViewController)
    
         self.window?.rootViewController = tabBarController
+         
+        */
+        
+        let navigationController = UINavigationController()        
+        let coordinator = RootCoordinator(transitionHandler: navigationController)
+        self.window?.rootViewController = coordinator.start()
+        
         self.window?.makeKeyAndVisible()
         
     }
