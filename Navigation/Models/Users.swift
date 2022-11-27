@@ -62,8 +62,6 @@ class Checker {
         return Checker()
     }()
     
-    //private let login: String = {return "Natasha"}()
-    //private let password: String = {return "123456"}()
     private let login: String = {return "Natasha"}()
     private let password: String = {return "123456"}()
 

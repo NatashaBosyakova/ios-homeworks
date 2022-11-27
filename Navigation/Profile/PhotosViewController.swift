@@ -12,6 +12,7 @@ class PhotosViewController: UIViewController {
         
     var gallery: [UIImage] = []
     var imagePublisher = ImagePublisherFacade()
+    var executionTime: Double = 0
     
     private enum Constants {
         static let numberOfItemsInLine: CGFloat = 3
@@ -43,13 +44,47 @@ class PhotosViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func updateGallery(array: [CGImage?]) -> Void {
+        
+        executionTime = CFAbsoluteTimeGetCurrent() - executionTime
+        print("Execution time: \(executionTime) seconds.")
+        
+        for img in array {
+            self.gallery.append(UIImage(cgImage: img!))
+        }
+        
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupNavigationBar()
         self.setupView()
         
-        imagePublisher.subscribe(self)
-        imagePublisher.addImagesWithTimer(time: 0.5, repeat: 20, userImages: MyGallery().getImages())
+        executionTime = CFAbsoluteTimeGetCurrent()
+        ImageProcessor().processImagesOnThread(
+            sourceImages: MyGallery().getImages(),
+            filter: .chrome,
+            qos: .default,
+            completion: updateGallery)
+        
+        // userInteractive (33) - 13 изображений, Execution time: 6.431676983833313 seconds.
+        // userInteractive (33) - 26 изображений, Execution time: 13.44985294342041 seconds.
+
+        // userInitiated (25) - 13 изображений, Execution time: 7.248588919639587 seconds.
+        // userInitiated (25) - 26 изображений, Execution time: 10.32836103439331 seconds.
+
+        // utility (17) - 13 изображений, Execution time: 22.689758896827698 seconds.
+        // utility (17) - 26 изображений, Execution time: 43.60951101779938 seconds.
+
+        // background (9) - 13 изображений, Execution time: 67.60066306591034 seconds.
+        
+        // default (-1) - 13 изображений, Execution time: 5.55302894115448 seconds.
+        
+        //imagePublisher.subscribe(self)
+        //imagePublisher.addImagesWithTimer(time: 0.5, repeat: 20, userImages: MyGallery().getImages())
     }
     
     override func viewWillDisappear(_ animated: Bool) {
