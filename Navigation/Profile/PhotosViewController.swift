@@ -85,6 +85,7 @@ class PhotosViewController: UIViewController {
         
         //imagePublisher.subscribe(self)
         //imagePublisher.addImagesWithTimer(time: 0.5, repeat: 20, userImages: MyGallery().getImages())
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {

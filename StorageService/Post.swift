@@ -12,8 +12,8 @@ public struct Post {
     public let author: String
     public let description: String
     public let image: String
-    public let likes: Int
-    public let views: Int
+    public var likes: Int
+    public var views: Int
     
     public init(index: Int) {
         
@@ -27,7 +27,7 @@ public struct Post {
         self.author = authors[index]
         self.description = descriptions[index]
         self.image = "PostImage"+String(index)
-        self.likes = Int.random(in: 1...1000)
-        self.views = Int.random(in: 1...10000)
+        self.likes = 0
+        self.views = 0
     }
 }

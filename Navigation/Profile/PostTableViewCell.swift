@@ -11,8 +11,6 @@ import iOSIntPackage
 
 class PostTableViewCell: UITableViewCell {
     
-    //let post: Post
-    
     private lazy var postImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.backgroundColor = .black
