@@ -160,6 +160,7 @@ class LogInViewController: UIViewController {
                         DispatchQueue.main.async {
                             self.loginTextField.text = login
                             self.passwordTextField.text = password
+                            self.passwordTextField.isSecureTextEntry = false
                             self.buttonPickUpPassword.configuration?.title = " success"
                             self.buttonPickUpPassword.configuration?.showsActivityIndicator = false
                         }
