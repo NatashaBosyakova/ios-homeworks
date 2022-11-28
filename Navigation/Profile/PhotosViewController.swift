@@ -10,9 +10,17 @@ import iOSIntPackage
 
 class PhotosViewController: UIViewController {
         
-    var gallery: [UIImage] = []
+    var gallery: [UIImage] = [] {
+        didSet {
+            updateNeeded = true
+        }
+    }
     var imagePublisher = ImagePublisherFacade()
     var executionTime: Double = 0
+    
+    var timer: Timer! = nil
+    
+    var updateNeeded: Bool = false
     
     private enum Constants {
         static let numberOfItemsInLine: CGFloat = 3
@@ -85,10 +93,28 @@ class PhotosViewController: UIViewController {
         
         //imagePublisher.subscribe(self)
         //imagePublisher.addImagesWithTimer(time: 0.5, repeat: 20, userImages: MyGallery().getImages())
+        
+        // iosint-10 / Домашнее задание к занятию "Run Loop, таймеры"
+        // можно считать что приложение многоплатформенное и может работать на разных устройствах
+        // и свою галерею пользователь может обновить, например, на сайте
+        // для того чтобы пользователь мог увидеть новые фотографии, просматривая галерею и не выходя из неё
+        // можно по таймеру проверять есть ли новые изображения и обновлять вью
+        
+        timer = Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(updateCollectionView), userInfo: nil, repeats: true)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 15, execute: {
+            self.gallery.append(MyGallery().getImages().randomElement()!)
+        })
+    }
+    
+    @objc private func updateCollectionView() {
+        self.updateNeeded = false
+        self.collectionView.reloadData()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         imagePublisher.removeSubscription(for: self)
+        timer.invalidate()
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
