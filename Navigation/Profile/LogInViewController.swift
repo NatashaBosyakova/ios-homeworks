@@ -9,6 +9,10 @@ import UIKit
 
 
 class LogInViewController: UIViewController {
+    
+    var activityIndicator = UIActivityIndicatorView(style: .medium)
+    
+    var stopSearching: Bool = true
         
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -57,6 +61,7 @@ class LogInViewController: UIViewController {
         textField.placeholder = "Login"
         textField.textColor = .black
         textField.autocapitalizationType = .none
+        textField.text = "Natasha"
         
         textField.clearButtonMode = .whileEditing
         
@@ -95,6 +100,77 @@ class LogInViewController: UIViewController {
         return button
     }()
     
+    private lazy var buttonPickUpPassword: UIButton = {
+        
+        var config = UIButton.Configuration.filled()
+        config.image = UIImage(
+            systemName: "sparkle.magnifyingglass",
+            withConfiguration: UIImage.SymbolConfiguration(scale: .medium))
+        config.baseForegroundColor = .gray
+        config.baseBackgroundColor = .systemGray6
+        config.imagePadding = 5
+        let button = UIButton(configuration: config)
+        button.addTarget(self, action: #selector(startBrutForce), for: .touchUpInside)
+        
+        button.translatesAutoresizingMaskIntoConstraints = false
+        
+        return button
+    }()
+    
+    @objc private func startBrutForce() {
+        
+        let login = self.loginTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        if (login == "") {
+            
+            let alert = UIAlertController(
+                title: "Enter a login",
+                message: "Enter a login and try again.",
+                preferredStyle: UIAlertController.Style.alert)
+            
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default))
+            alert.view.tintColor = .black
+            
+            self.present(alert, animated: true, completion: nil)
+            
+        }
+        else {
+            if buttonPickUpPassword.configuration!.showsActivityIndicator {
+                buttonPickUpPassword.configuration?.title = ""
+                buttonPickUpPassword.configuration?.showsActivityIndicator = false
+                stopSearching = true
+            }
+            else {
+                buttonPickUpPassword.configuration?.title = " stop"
+                buttonPickUpPassword.configuration?.showsActivityIndicator = true
+                
+                stopSearching = false
+                
+                let queue = DispatchQueue.global(qos: .utility)
+                queue.async{
+                    
+                    // ищем пароль
+                    let ALLOWED_CHARACTERS: [String] = String().printable.map { String($0) }
+                    var password: String = ""
+                    while !self.stopSearching && !self.loginDelegate!.check(login: login, password: password) {
+                        password = generateBruteForce(password, fromArray: ALLOWED_CHARACTERS)
+                    }
+                    
+                    if (self.loginDelegate!.check(login: login, password: password)) {
+                        DispatchQueue.main.async {
+                            self.loginTextField.text = login
+                            self.passwordTextField.text = password
+                            self.buttonPickUpPassword.configuration?.title = " success"
+                            self.buttonPickUpPassword.configuration?.showsActivityIndicator = false
+                        }
+                    }
+
+                }
+            }
+        }
+    
+    }
+    
     var loginDelegate: LoginViewControllerDelegate?
 
     private var login: String?
@@ -126,6 +202,9 @@ class LogInViewController: UIViewController {
         self.scrollView.addSubview(self.imageViewCenter)
         self.scrollView.addSubview(self.stackView)
         self.scrollView.addSubview(self.button)
+        self.view.addSubview(self.buttonPickUpPassword)
+        
+        
     }
     
     private func setConstraints() {
@@ -153,6 +232,9 @@ class LogInViewController: UIViewController {
             self.imageView.centerYAnchor.constraint(equalTo: self.imageViewCenter.centerYAnchor),
             self.imageView.heightAnchor.constraint(equalToConstant: 100),
             self.imageView.widthAnchor.constraint(equalToConstant: 100),
+            
+            self.buttonPickUpPassword.centerYAnchor.constraint(equalTo: self.passwordTextField.centerYAnchor),
+            self.buttonPickUpPassword.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20),
         ])
     }
     
@@ -190,7 +272,7 @@ class LogInViewController: UIViewController {
             self.scrollView.setContentOffset(CGPoint(x: 0, y: yOffset - self.view.safeAreaInsets.top), animated: true)
        }
     }
-    
+ 
     @objc private func didHideKeyboard(_ notification: Notification) {
         self.forcedHidingKeyboard()
     }
@@ -242,4 +324,46 @@ extension LogInViewController: UITextFieldDelegate {
         self.forcedHidingKeyboard()
         return true
     }
+}
+
+extension String {
+    var digits:      String { return "0123456789" }
+    var lowercase:   String { return "abcdefghijklmnopqrstuvwxyz" }
+    var uppercase:   String { return "ABCDEFGHIJKLMNOPQRSTUVWXYZ" }
+    var punctuation: String { return "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~" }
+    var letters:     String { return lowercase + uppercase }
+    var printable:   String { return digits + letters + punctuation }
+
+    mutating func replace(at index: Int, with character: Character) {
+        var stringArray = Array(self)
+        stringArray[index] = character
+        self = String(stringArray)
+    }
+}
+
+func indexOf(character: Character, _ array: [String]) -> Int {
+    return array.firstIndex(of: String(character))!
+}
+
+func characterAt(index: Int, _ array: [String]) -> Character {
+    return index < array.count ? Character(array[index])
+                               : Character("")
+}
+
+func generateBruteForce(_ string: String, fromArray array: [String]) -> String {
+    var str: String = string
+
+    if str.count <= 0 {
+        str.append(characterAt(index: 0, array))
+    }
+    else {
+        str.replace(at: str.count - 1,
+                    with: characterAt(index: (indexOf(character: str.last!, array) + 1) % array.count, array))
+
+        if indexOf(character: str.last!, array) == 0 {
+            str = String(generateBruteForce(String(str.dropLast()), fromArray: array)) + String(str.last!)
+        }
+    }
+
+    return str
 }

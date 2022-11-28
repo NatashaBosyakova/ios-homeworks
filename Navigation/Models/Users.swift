@@ -63,7 +63,7 @@ class Checker {
     }()
     
     private let login: String = {return "Natasha"}()
-    private let password: String = {return "123456"}()
+    private let password: String = {return "1234"}()
 
     private init() {
         
