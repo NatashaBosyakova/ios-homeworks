@@ -81,7 +81,7 @@ class ProfileViewController: UIViewController {
     }
     
     @objc private func addLikes() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + Double(Int.random(in: 1...5)), execute: {
+        DispatchQueue.main.asyncAfter(deadline: .now() + Double(Int.random(in: 1...15)), execute: {
             for index in 0...self.posts.count-1 {
                 let newLikes = Int.random(in: 1...10)
                 self.posts[index].likes = self.posts[index].likes + newLikes
