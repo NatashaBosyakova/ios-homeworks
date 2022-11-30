@@ -59,35 +59,33 @@ class ProfileViewController: UIViewController {
         // другие пользователи оставляют лайки под фотографиями
         // в профиле по таймеру будем обновляем вью для отражения нового количества лайков
         
-        timerUpdate = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(updateView), userInfo: nil, repeats: true)
+        timerUpdate = Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { [weak self] timer in
+            guard let self else { return }
+            
+            if self.likesUpdateNeeded {
+                self.likesUpdateNeeded = false
+                let indexPaths = self.tableView.visibleCells.map { self.tableView.indexPath(for: $0) }.compactMap { $0 }
+                self.tableView.reloadRows(at: indexPaths, with: .automatic)
+            }
+        }
                 
         // добавляем лайков
-        timerAddLikes = Timer.scheduledTimer(timeInterval: 15, target: self, selector: #selector(addLikes), userInfo: nil, repeats: true)
-        
+        timerAddLikes = Timer.scheduledTimer(withTimeInterval: 15, repeats: true) { [weak self] timer in
+            guard let self else { return }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + Double(Int.random(in: 1...15)), execute: {
+                for index in 0...self.posts.count-1 {
+                    let newLikes = Int.random(in: 1...10)
+                    self.posts[index].likes = self.posts[index].likes + newLikes
+                    self.posts[index].views = self.posts[index].views + Int.random(in: newLikes...100)
+                }
+            })
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         timerUpdate.invalidate()
         timerUpdate.invalidate()
-    }
-
-    @objc private func updateView() {
-        
-        if self.likesUpdateNeeded {
-            self.likesUpdateNeeded = false
-            let indexPaths = tableView.visibleCells.map { tableView.indexPath(for: $0) }.compactMap { $0 }
-            tableView.reloadRows(at: indexPaths, with: .automatic)
-        }
-    }
-    
-    @objc private func addLikes() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + Double(Int.random(in: 1...15)), execute: {
-            for index in 0...self.posts.count-1 {
-                let newLikes = Int.random(in: 1...10)
-                self.posts[index].likes = self.posts[index].likes + newLikes
-                self.posts[index].views = self.posts[index].views + Int.random(in: newLikes...100)
-            }
-        })
     }
 
     @objc func dismissKeyboard() {

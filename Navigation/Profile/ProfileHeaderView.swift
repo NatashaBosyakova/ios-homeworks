@@ -111,6 +111,11 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
     }
     
     @objc func showStatus() {
+        
+        guard self.statusText != "fail" else { // Собственные домены ошибок. Управление ошибками приложения / задача 4.
+            preconditionFailure("test preconditionFailure")
+        }
+        
         labelStatus.text = self.statusText
     }
     

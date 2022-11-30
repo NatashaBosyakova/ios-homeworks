@@ -23,7 +23,7 @@ class User {
 }
 
 protocol UserService {
-    func getUser(login: String) -> User?
+    func getUser(login: String) throws -> User?
 }
 
 class CurrentUserService: UserService {
@@ -37,12 +37,12 @@ class CurrentUserService: UserService {
     
     var user: User? = nil    
     
-    func getUser(login: String) -> User? {
+    func getUser(login: String) throws -> User? {
         if let user = users.first(where: {$0.login == login}) {
             return user
         }
         else {
-            return nil
+            throw MyError.invalidLogin
         }
     }
 }
@@ -51,7 +51,7 @@ class TestUserService: UserService {
         
     var user: User? = nil
     
-    func getUser(login: String) -> User? {
+    func getUser(login: String) throws -> User? {
         return User(login: "Test", fullName: "Test User", status: "no status")
     }
 }

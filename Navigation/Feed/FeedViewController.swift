@@ -175,19 +175,19 @@ class FeedViewController: UIViewController {
     
     @objc func checkWord() {
         
-        let word = wordField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        let result = viewModel.check(wordField.text!)
         
-        if word != "" {
+        switch result {
             
-            let result : Bool = viewModel.check(word)
+        case .success(let isRightWord):
                 
-            checkGuessLabel.backgroundColor = result ? .green : .red
-            checkGuessLabel.text = result ? "✓" : "-"
+            checkGuessLabel.backgroundColor = isRightWord ? .green : .red
+            checkGuessLabel.text = isRightWord ? "✓" : "-"
             checkGuessLabel.textColor = .white
             
             let alert = UIAlertController(
-                title: result ? "Right" : "Wrong",
-                message: result ? "Cool!" : "Try again.",
+                title: isRightWord ? "Right" : "Wrong",
+                message: isRightWord ? "Cool!" : "Try again.",
                 preferredStyle: UIAlertController.Style.alert)
             
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default))
@@ -195,16 +195,14 @@ class FeedViewController: UIViewController {
             
             self.present(alert, animated: true, completion: nil)
             
-        }
-        
-        else {
+        case .failure(let myError):
             
             checkGuessLabel.text = " "
             checkGuessLabel.backgroundColor  = .gray
             
             let alert = UIAlertController(
                 title: "Enter a word",
-                message: "Enter a word and try again.",
+                message: myError.description,
                 preferredStyle: UIAlertController.Style.alert)
             
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default))

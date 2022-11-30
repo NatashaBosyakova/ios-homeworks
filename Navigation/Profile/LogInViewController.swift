@@ -7,6 +7,22 @@
 
 import UIKit
 
+// Собственные домены ошибок. Управление ошибками приложения / задача 1.
+enum MyError: Error {
+    case invalidPassword
+    case invalidLogin
+    case emptyData
+}
+
+extension MyError: CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case .invalidPassword: return "Your password is invalid. Please try again."
+        case .invalidLogin: return "Your login is invalid. Please try again."
+        case .emptyData: return "Enter a word and try again."
+        }
+    }
+}
 
 class LogInViewController: UIViewController {
     
@@ -122,18 +138,19 @@ class LogInViewController: UIViewController {
         let login = self.loginTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         
         if (login == "") {
-            
+
             let alert = UIAlertController(
                 title: "Enter a login",
                 message: "Enter a login and try again.",
                 preferredStyle: UIAlertController.Style.alert)
-            
+
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default))
             alert.view.tintColor = .black
-            
+
             self.present(alert, animated: true, completion: nil)
-            
+
         }
+        
         else {
             if buttonPickUpPassword.configuration!.showsActivityIndicator {
                 buttonPickUpPassword.configuration?.title = ""
@@ -165,11 +182,9 @@ class LogInViewController: UIViewController {
                             self.buttonPickUpPassword.configuration?.showsActivityIndicator = false
                         }
                     }
-
                 }
             }
         }
-    
     }
     
     var loginDelegate: LoginViewControllerDelegate?
@@ -289,8 +304,11 @@ class LogInViewController: UIViewController {
         #else
         let currentUserService = CurrentUserService()
         #endif
-        if let user = currentUserService.getUser(login: loginTextField.text!) {
-            
+        
+        
+        do { // Собственные домены ошибок. Управление ошибками приложения / задача 2.
+            let user = try currentUserService.getUser(login: loginTextField.text!)
+                
             if loginDelegate!.check(login: loginTextField.text!, password: passwordTextField.text!) {
                 //let controller = ProfileViewController()
                 //controller.user = user
@@ -308,9 +326,16 @@ class LogInViewController: UIViewController {
                 self.present(alert, animated: true, completion: nil)
 
             }
+
         }
-        else {
+        catch MyError.invalidLogin {
             let alert = UIAlertController(title: "Login Failed", message: "Your login is invalid. Please try again.", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default))
+            alert.view.tintColor = .black
+            self.present(alert, animated: true, completion: nil)
+        }
+        catch  {
+            let alert = UIAlertController(title: "Login Failed", message: "Something goes wrong.", preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default))
             alert.view.tintColor = .black
             self.present(alert, animated: true, completion: nil)

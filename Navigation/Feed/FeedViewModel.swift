@@ -14,7 +14,12 @@ final class FeedViewModel {
         self.model = model
     }
     
-    func check(_ word: String) -> Bool {
-        return word == model.secretWord
+    func check(_ word: String) -> Result<Bool, MyError> { // Собственные домены ошибок. Управление ошибками приложения / задача 3.
+        if (word.trimmingCharacters(in: .whitespacesAndNewlines) == "") {
+            return .failure(MyError.emptyData)
+        }
+        else {
+            return .success(word == model.secretWord)
+        }
     }
 }
