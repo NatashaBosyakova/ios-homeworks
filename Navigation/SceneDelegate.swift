@@ -12,6 +12,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
 
     var rootCoordinator: AppCoordinator?
+    
+    var appConfigaration: AppConfiguration = AppConfiguration.random()
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
 
@@ -51,11 +53,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
          
         */
         
-        let navigationController = UINavigationController()        
+        let navigationController = UINavigationController()
         let coordinator = RootCoordinator(transitionHandler: navigationController)
         self.window?.rootViewController = coordinator.start()
         
         self.window?.makeKeyAndVisible()
+        
+        NetworkService.request(for: appConfigaration)
         
     }
     

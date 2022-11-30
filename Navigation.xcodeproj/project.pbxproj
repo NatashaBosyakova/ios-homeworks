@@ -12,6 +12,7 @@
 		D81CC67B293367D300CADB23 /* FeedCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D81CC67A293367D300CADB23 /* FeedCoordinator.swift */; };
 		D81CC67D2933686600CADB23 /* ProfileCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D81CC67C2933686600CADB23 /* ProfileCoordinator.swift */; };
 		D81CC67F29336A2D00CADB23 /* StackBasedNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D81CC67E29336A2D00CADB23 /* StackBasedNavigation.swift */; };
+		D81CC6812937BE2000CADB23 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D81CC6802937BE2000CADB23 /* NetworkService.swift */; };
 		D820366F28EC2B89001D2D7B /* StorageService.h in Headers */ = {isa = PBXBuildFile; fileRef = D820366E28EC2B89001D2D7B /* StorageService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D820367228EC2B89001D2D7B /* StorageService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D820366C28EC2B89001D2D7B /* StorageService.framework */; };
 		D820367328EC2B89001D2D7B /* StorageService.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D820366C28EC2B89001D2D7B /* StorageService.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -74,6 +75,7 @@
 		D81CC67A293367D300CADB23 /* FeedCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCoordinator.swift; sourceTree = "<group>"; };
 		D81CC67C2933686600CADB23 /* ProfileCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCoordinator.swift; sourceTree = "<group>"; };
 		D81CC67E29336A2D00CADB23 /* StackBasedNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackBasedNavigation.swift; sourceTree = "<group>"; };
+		D81CC6802937BE2000CADB23 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		D820366C28EC2B89001D2D7B /* StorageService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StorageService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D820366E28EC2B89001D2D7B /* StorageService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StorageService.h; sourceTree = "<group>"; };
 		D820367928ECC84F001D2D7B /* PhotosTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosTableViewCell.swift; sourceTree = "<group>"; };
@@ -252,6 +254,7 @@
 				D8F2E26F28B407CD0065E033 /* Assets.xcassets */,
 				D8F2E27128B407CD0065E033 /* LaunchScreen.storyboard */,
 				D8F2E27428B407CD0065E033 /* Info.plist */,
+				D81CC6802937BE2000CADB23 /* NetworkService.swift */,
 			);
 			path = Navigation;
 			sourceTree = "<group>";
@@ -452,6 +455,7 @@
 			files = (
 				D81CC67B293367D300CADB23 /* FeedCoordinator.swift in Sources */,
 				D81CC67D2933686600CADB23 /* ProfileCoordinator.swift in Sources */,
+				D81CC6812937BE2000CADB23 /* NetworkService.swift in Sources */,
 				D8D4CC41292FF683006EA971 /* FeedViewModel.swift in Sources */,
 				D820367C28EDEF55001D2D7B /* MyGallery.swift in Sources */,
 				D81CC67F29336A2D00CADB23 /* StackBasedNavigation.swift in Sources */,
