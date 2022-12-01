@@ -143,5 +143,10 @@ extension InfoViewController: UITableViewDataSource, UITableViewDelegate {
         cell.textLabel?.text = self.residents[indexPath.row]
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection
+                                section: Int) -> String? {
+       return "Residents:"
+    }
 
 }
