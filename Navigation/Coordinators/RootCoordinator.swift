@@ -48,7 +48,6 @@ class TabBarController: UITabBarController {
             image: UIImage(systemName: "house.fill")!)
         
         let logInViewController = LogInViewController()
-        logInViewController.loginDelegate = MyLoginFactory().makeLoginInspector()
 
         addController(
             controller: logInViewController,

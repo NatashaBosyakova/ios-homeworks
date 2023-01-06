@@ -39,13 +39,6 @@ struct PlanetWirhResidents: Decodable {
         case residents
         case rotationPeriod = "rotation_period"
     }
-//    init(from decoder: Decoder) throws {
-//        let container = try decoder.container(keyedBy: CodingKeys.self)
-//        name = try container.decode(String.self, forKey: .name)
-//        rotationPeriod = try container.decode(String.self, forKey: .rotationPeriod)
-//
-//        let residents = try decoder.container(keyedBy: CodingKeys.self, forKey: .residents)
-//    }
 }
 
 struct NetworkService {

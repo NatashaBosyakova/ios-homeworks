@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import FirebaseCore
+import FirebaseAuth
 
 // Собственные домены ошибок. Управление ошибками приложения / задача 1.
 enum MyError: Error {
@@ -24,11 +26,15 @@ extension MyError: CustomStringConvertible {
     }
 }
 
-class LogInViewController: UIViewController {
+class LogInViewController: UIViewController, UITextFieldDelegate {
     
     var activityIndicator = UIActivityIndicatorView(style: .medium)
     
     var stopSearching: Bool = true
+        
+    private /* weak */ var loginDelegate: LoginViewControllerDelegate?
+
+    private var login: String?
         
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -77,8 +83,8 @@ class LogInViewController: UIViewController {
         textField.placeholder = "Login"
         textField.textColor = .black
         textField.autocapitalizationType = .none
-        textField.text = "Natasha"
-        
+        textField.text = "test@test.com"
+        textField.addTarget(self, action:  #selector(textFieldDidChange), for: .editingChanged)
         textField.clearButtonMode = .whileEditing
         
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -96,6 +102,7 @@ class LogInViewController: UIViewController {
         textField.placeholder = "Password"
         textField.textColor = .black
         textField.autocapitalizationType = .none
+        textField.addTarget(self, action:  #selector(textFieldDidChange), for: .editingChanged)
 
         textField.isSecureTextEntry = true
         
@@ -103,7 +110,7 @@ class LogInViewController: UIViewController {
         return textField
     }()
     
-    private lazy var button: UIButton = {
+    private lazy var buttonLogin: UIButton = {
         
         let button = UIButton()
         button.setTitle("Log In", for: .normal)
@@ -111,7 +118,20 @@ class LogInViewController: UIViewController {
         button.layer.cornerRadius = 8
         button.clipsToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(showProfileViewController), for: .touchUpInside)
+        button.addTarget(self, action: #selector(loginUser), for: .touchUpInside)
+        
+        return button
+    }()
+ 
+    private lazy var buttonSingUp: UIButton = {
+        
+        let button = UIButton()
+        button.setTitle("Sing Up", for: .normal)
+        button.backgroundColor = .orange
+        button.layer.cornerRadius = 8
+        button.clipsToBounds = true
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(singUpUser), for: .touchUpInside)
         
         return button
     }()
@@ -133,63 +153,14 @@ class LogInViewController: UIViewController {
         return button
     }()
     
-    @objc private func startBrutForce() {
-        
-        let login = self.loginTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-        
-        if (login == "") {
-
-            let alert = UIAlertController(
-                title: "Enter a login",
-                message: "Enter a login and try again.",
-                preferredStyle: UIAlertController.Style.alert)
-
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default))
-            alert.view.tintColor = .black
-
-            self.present(alert, animated: true, completion: nil)
-
-        }
-        
-        else {
-            if buttonPickUpPassword.configuration!.showsActivityIndicator {
-                buttonPickUpPassword.configuration?.title = ""
-                buttonPickUpPassword.configuration?.showsActivityIndicator = false
-                stopSearching = true
-            }
-            else {
-                buttonPickUpPassword.configuration?.title = " stop"
-                buttonPickUpPassword.configuration?.showsActivityIndicator = true
-                
-                stopSearching = false
-                
-                let queue = DispatchQueue.global(qos: .utility)
-                queue.async{
-                    
-                    // ищем пароль
-                    let ALLOWED_CHARACTERS: [String] = String().printable.map { String($0) }
-                    var password: String = ""
-                    while !self.stopSearching && !self.loginDelegate!.check(login: login, password: password) {
-                        password = generateBruteForce(password, fromArray: ALLOWED_CHARACTERS)
-                    }
-                    
-                    if (self.loginDelegate!.check(login: login, password: password)) {
-                        DispatchQueue.main.async {
-                            self.loginTextField.text = login
-                            self.passwordTextField.text = password
-                            self.passwordTextField.isSecureTextEntry = false
-                            self.buttonPickUpPassword.configuration?.title = " success"
-                            self.buttonPickUpPassword.configuration?.showsActivityIndicator = false
-                        }
-                    }
-                }
-            }
-        }
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        self.loginDelegate = MyLoginFactory().makeLoginInspector()
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
     
-    var loginDelegate: LoginViewControllerDelegate?
-
-    private var login: String?
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
                 
@@ -204,6 +175,7 @@ class LogInViewController: UIViewController {
         
         addSubviews()
         setConstraints()
+        setupIsEnabled()
     }
     
     private func addSubviews() {
@@ -217,10 +189,10 @@ class LogInViewController: UIViewController {
         self.scrollView.addSubview(self.imageView)
         self.scrollView.addSubview(self.imageViewCenter)
         self.scrollView.addSubview(self.stackView)
-        self.scrollView.addSubview(self.button)
+        self.scrollView.addSubview(self.buttonLogin)
+        self.scrollView.addSubview(self.buttonSingUp)
+        
         self.view.addSubview(self.buttonPickUpPassword)
-        
-        
     }
     
     private func setConstraints() {
@@ -236,11 +208,16 @@ class LogInViewController: UIViewController {
             self.stackView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -16),
             self.stackView.heightAnchor.constraint(equalToConstant: 100),
 
-            self.button.topAnchor.constraint(equalTo: self.stackView.bottomAnchor, constant: 16),
-            self.button.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 16),
-            self.button.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -16),
-            self.button.heightAnchor.constraint(equalToConstant: 50),
+            self.buttonLogin.topAnchor.constraint(equalTo: self.stackView.bottomAnchor, constant: 16),
+            self.buttonLogin.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 16),
+            self.buttonLogin.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -16),
+            self.buttonLogin.heightAnchor.constraint(equalToConstant: 50),
             
+            self.buttonSingUp.topAnchor.constraint(equalTo: self.buttonLogin.bottomAnchor, constant: 16),
+            self.buttonSingUp.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 16),
+            self.buttonSingUp.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -16),
+            self.buttonSingUp.heightAnchor.constraint(equalToConstant: 50),
+
             self.imageViewCenter.topAnchor.constraint(equalTo: self.view.topAnchor),
             self.imageViewCenter.bottomAnchor.constraint(equalTo: self.stackView.topAnchor),
 
@@ -260,6 +237,7 @@ class LogInViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
         super.viewWillAppear(animated)
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(self.didShowKeyboard(_:)),
@@ -271,12 +249,18 @@ class LogInViewController: UIViewController {
                                                object: nil)
     }
     
+    private func setupIsEnabled() {
+        buttonLogin.isEnabled = loginTextField.text!.isValidEmail() && !passwordTextField.text!.isEmpty
+        buttonSingUp.isEnabled = loginTextField.text!.isValidEmail() && !passwordTextField.text!.isEmpty        
+        buttonSingUp.alpha = buttonSingUp.isEnabled ? 1.0 : 0.5
+    }
+    
     @objc private func didShowKeyboard(_ notification: Notification) {
         if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             let keyboardRectangle = keyboardFrame.cgRectValue
             let keyboardHeight = keyboardRectangle.height
             
-            let loginButtonBottomPointY = self.button.frame.origin.y + self.button.frame.height
+            let loginButtonBottomPointY = self.buttonSingUp.frame.origin.y + self.buttonSingUp.frame.height
             let keyboardOriginY = self.view.frame.height -
                 keyboardHeight -
                 self.view.safeAreaInsets.top
@@ -298,73 +282,90 @@ class LogInViewController: UIViewController {
         self.scrollView.setContentOffset(CGPoint(x: 0, y: -self.view.safeAreaInsets.top), animated: true)
     }
     
-    @objc func showProfileViewController(sender: UIButton!) {
-        #if DEBUG
-        let currentUserService = TestUserService()
-        #else
-        let currentUserService = CurrentUserService()
-        #endif
+    func showProfileControler() {
+        let сoordinator = ProfileCoordinator(transitionHandler: navigationController)
+        сoordinator.start(user: Auth.auth().currentUser)
+    }
+    
+    @objc func singUpUser(sender: UIButton!) {
         
+        loginDelegate!.signUp(login: loginTextField.text!, password: passwordTextField.text!) {[weak self] (success, errorDescription) in
+            guard let `self` = self else { return }
         
-        do { // Собственные домены ошибок. Управление ошибками приложения / задача 2.
-            let user = try currentUserService.getUser(login: loginTextField.text!)
+            if (success) {
+                self.showProfileControler()
+            } else {
+                presentAlert(title: "SignUp Error", message: errorDescription, controller: self)
+            }
+        }
+    }
+                         
+    @objc func loginUser(sender: UIButton!) {
+        
+        loginDelegate!.checkCredentials(login: loginTextField.text!, password: passwordTextField.text!) {[weak self] (success, errorDescription) in
+            guard let `self` = self else { return }
+        
+            if (success) {
+                self.showProfileControler()
+            } else {
+                presentAlert(title: "Login Error", message: errorDescription, controller: self)
+            }
+        }
+        
+    }
+    
+    func checkPasword(login: String, password: String) {
+        CheckerService().checkPassword(login: login, password: password) {[weak self] (success, login, password) in
+            guard let `self` = self else { return }
+        
+            if (success) {
+                DispatchQueue.main.async {
+                    self.passwordTextField.text = password
+                    self.passwordTextField.isSecureTextEntry = false
+                    self.buttonPickUpPassword.configuration?.title = " success"
+                    self.buttonPickUpPassword.configuration?.showsActivityIndicator = false
+                }
                 
-            if loginDelegate!.check(login: loginTextField.text!, password: passwordTextField.text!) {
-                //let controller = ProfileViewController()
-                //controller.user = user
-                //navigationController?.pushViewController(controller, animated: true)
-                
-                // меняем навигационный переход на обращение к координатору
-                let сoordinator = ProfileCoordinator(transitionHandler: navigationController)
-                сoordinator.start(user: user)
-
+            } else if !self.stopSearching {
+                let ALLOWED_CHARACTERS: [String] = String().printable.map { String($0) }
+                let newPassword = generateBruteForce(password, fromArray: ALLOWED_CHARACTERS)
+                self.checkPasword(login: login, password: newPassword)
+            }
+        }
+    }
+    
+    @objc private func startBrutForce() {
+        
+        let login = self.loginTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        if (login == "") {
+            presentAlert(title: "Enter a login", message: "Enter a login and try again.", controller: self)
+        }
+        
+        else {
+            if buttonPickUpPassword.configuration!.showsActivityIndicator {
+                buttonPickUpPassword.configuration?.title = ""
+                buttonPickUpPassword.configuration?.showsActivityIndicator = false
+                stopSearching = true
             }
             else {
-                let alert = UIAlertController(title: "Login Failed", message: "Your password is invalid. Please try again.", preferredStyle: UIAlertController.Style.alert)
-                alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default))
-                alert.view.tintColor = .black
-                self.present(alert, animated: true, completion: nil)
-
+                buttonPickUpPassword.configuration?.title = " stop"
+                buttonPickUpPassword.configuration?.showsActivityIndicator = true
+                
+                stopSearching = false
+                
+                let queue = DispatchQueue.global(qos: .utility)
+                queue.async{ [self] in
+                    checkPasword(login: login, password: "")
+                }
             }
-
-        }
-        catch MyError.invalidLogin {
-            let alert = UIAlertController(title: "Login Failed", message: "Your login is invalid. Please try again.", preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default))
-            alert.view.tintColor = .black
-            self.present(alert, animated: true, completion: nil)
-        }
-        catch  {
-            let alert = UIAlertController(title: "Login Failed", message: "Something goes wrong.", preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default))
-            alert.view.tintColor = .black
-            self.present(alert, animated: true, completion: nil)
         }
     }
     
-}
-
-extension LogInViewController: UITextFieldDelegate {
+    @objc private func textFieldDidChange() {
+        setupIsEnabled()
+    }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        self.forcedHidingKeyboard()
-        return true
-    }
-}
-
-extension String {
-    var digits:      String { return "0123456789" }
-    var lowercase:   String { return "abcdefghijklmnopqrstuvwxyz" }
-    var uppercase:   String { return "ABCDEFGHIJKLMNOPQRSTUVWXYZ" }
-    var punctuation: String { return "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~" }
-    var letters:     String { return lowercase + uppercase }
-    var printable:   String { return digits + letters + punctuation }
-
-    mutating func replace(at index: Int, with character: Character) {
-        var stringArray = Array(self)
-        stringArray[index] = character
-        self = String(stringArray)
-    }
 }
 
 func indexOf(character: Character, _ array: [String]) -> Int {

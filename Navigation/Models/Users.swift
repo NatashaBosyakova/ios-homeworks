@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class User {
     var login: String
@@ -72,17 +73,39 @@ class Checker {
     func check(login: String, password: String) -> Bool {
         return self.login == login && self.password == password
     }
+    
+    func checkCredentials(login: String, password: String) {
+        Auth.auth().signIn(withEmail: login, password: password) {authResult, error in
+                              
+            guard error == nil else {
+                
+                //presentAlert(title: "", message: error!.localizedDescription, controller: UIViewController)
+                
+                return
+           }
+        }
+    }
 }
 
-protocol LoginViewControllerDelegate {
+protocol LoginViewControllerDelegate : AnyObject {
     func check(login: String, password: String) -> Bool
+    func checkCredentials(login: String, password: String, completionBlock: @escaping (_ success: Bool, _ errorDescription: String) -> Void)
+    func signUp(login: String, password: String, completionBlock: @escaping (_ success: Bool, _ errorDescription: String) -> Void)
 }
 
-struct LoginInspector: LoginViewControllerDelegate {
+class LoginInspector: LoginViewControllerDelegate {
     
     func check(login: String, password: String) -> Bool {
         let checker = Checker.shared
         return checker.check(login: login, password: password)
+    }
+    
+    func checkCredentials(login: String, password: String, completionBlock: @escaping (_ success: Bool, _ errorDescription: String) -> Void) {
+        CheckerService().checkCredentials(login: login, password: password, completionBlock: completionBlock)
+    }
+    
+    func signUp(login: String, password: String, completionBlock: @escaping (_ success: Bool, _ errorDescription: String) -> Void) {
+        CheckerService().signUp(login: login, password: password, completionBlock: completionBlock)
     }
 }
 
@@ -94,5 +117,61 @@ struct MyLoginFactory: LoginFactory {
     
     func makeLoginInspector() -> LoginInspector {
         return LoginInspector()
+    }
+}
+
+protocol CheckerServiceProtocol {
+    func checkCredentials(login: String, password: String, completionBlock: @escaping (_ success: Bool, _ errorDescription: String) -> Void)
+    func signUp(login: String, password: String, completionBlock: @escaping (_ success: Bool, _ errorDescription: String) -> Void)
+}
+
+class CheckerService: CheckerServiceProtocol {
+    
+    func checkCredentials(login: String, password: String, completionBlock: @escaping (_ success: Bool, _ errorDescription: String) -> Void) {
+        Auth.auth().signIn(withEmail: login, password: password) {result, error in
+            if let error {
+                completionBlock(false, error.localizedDescription)
+            } else {
+                completionBlock(true, "")
+            }
+        }
+    }
+    
+    func checkPassword(login: String, password: String, completionBlock: @escaping (_ success: Bool, _ login: String, _ password: String) -> Void) {
+        Auth.auth().signIn(withEmail: login, password: password) {result, error in
+            if let _ = error {
+                completionBlock(false, login, password)
+            } else {
+                completionBlock(true, login, password)
+            }
+        }
+    }
+    
+    func signUp(login: String, password: String, completionBlock: @escaping (_ success: Bool, _ errorDescription: String) -> Void) {
+        Auth.auth().createUser(withEmail: login, password: password) {result, error in
+            if let error {
+                completionBlock(false, error.localizedDescription)
+            } else {
+                let user = Auth.auth().currentUser
+                if let user = user {
+                    let changeRequest = user.createProfileChangeRequest()
+                    changeRequest.displayName = "User: "+login
+                    changeRequest.photoURL = URL(string: "https://cdn-icons-png.flaticon.com/512/3468/3468094.png")
+                    changeRequest.commitChanges { error in
+                        if let error {
+                            completionBlock(false, error.localizedDescription)
+                        } else {
+                            Auth.auth().signIn(withEmail: login, password: password) {result, error in
+                                if let error {
+                                    completionBlock(false, error.localizedDescription)
+                                } else {
+                                    completionBlock(true, "")
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }

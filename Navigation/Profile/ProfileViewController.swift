@@ -7,6 +7,7 @@
 
 import UIKit
 import StorageService
+import FirebaseAuth
 
 class ProfileViewController: UIViewController {
     
@@ -22,7 +23,7 @@ class ProfileViewController: UIViewController {
     
     var timerAddLikes: Timer! = nil
     
-    var user: User?
+    var user: FirebaseAuth.User?
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: CGRectZero, style: .grouped)
@@ -85,7 +86,7 @@ class ProfileViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         timerUpdate.invalidate()
-        timerUpdate.invalidate()
+        timerAddLikes.invalidate()
     }
 
     @objc func dismissKeyboard() {

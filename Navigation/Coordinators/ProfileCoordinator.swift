@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import FirebaseAuth
 
 final class ProfileCoordinator: AppCoordinator {
 
@@ -17,11 +18,11 @@ final class ProfileCoordinator: AppCoordinator {
         self.transitionHandler = transitionHandler
     }
     
-    func start(user: User?) {
+    func start(user: FirebaseAuth.User?) {
         showProfileScreen(user: user)
     }
     
-    fileprivate func showProfileScreen(user: User?) {
+    fileprivate func showProfileScreen(user: FirebaseAuth.User?) {
         let controller = ProfileViewController()
         controller.user = user
         transitionHandler?.push(controller, animated: true)

@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import FirebaseAuth
 
 class ProfileHeaderView: UITableViewHeaderFooterView {
     
@@ -21,7 +22,7 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
     public lazy var imageView: UIImageView = {
         
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "ProfileImage")
+        imageView.image = UIImage(named: "no-user-image")
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = imageSize / 2
         imageView.layer.borderWidth = 3
@@ -85,11 +86,18 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
         return button
     }()
     
-    func setUserData(user: User) {
-        labelStatus.text = user.status
-        imageView.image = user.avatar
-        labelName.text = user.fullName
-        textStatus.placeholder = user.status
+    func setUserData(user: FirebaseAuth.User) {
+        labelStatus.text = "Without status"
+        if let url = user.photoURL {
+            DispatchQueue.main.async {
+                let data = try? Data(contentsOf: url)
+                if let imageData = data {
+                    self.imageView.image = UIImage(data: imageData)
+                }
+            }
+        }
+        labelName.text = user.displayName
+        textStatus.placeholder = "Enter status"
    }
     
     override init(reuseIdentifier: String?) {

@@ -185,30 +185,17 @@ class FeedViewController: UIViewController {
             checkGuessLabel.text = isRightWord ? "✓" : "-"
             checkGuessLabel.textColor = .white
             
-            let alert = UIAlertController(
+            presentAlert(
                 title: isRightWord ? "Right" : "Wrong",
                 message: isRightWord ? "Cool!" : "Try again.",
-                preferredStyle: UIAlertController.Style.alert)
-            
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default))
-            alert.view.tintColor = .black
-            
-            self.present(alert, animated: true, completion: nil)
+                controller: self)
             
         case .failure(let myError):
             
             checkGuessLabel.text = " "
             checkGuessLabel.backgroundColor  = .gray
             
-            let alert = UIAlertController(
-                title: "Enter a word",
-                message: myError.description,
-                preferredStyle: UIAlertController.Style.alert)
-            
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default))
-            alert.view.tintColor = .black
-            
-            self.present(alert, animated: true, completion: nil)
+            presentAlert(title: "Enter a word", message: myError.description, controller: self)
             
         }
     }
