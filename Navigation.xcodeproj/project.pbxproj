@@ -32,6 +32,8 @@
 		D82864D428B54889003A5807 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D82864D328B54889003A5807 /* ProfileViewController.swift */; };
 		D82864D628B562CE003A5807 /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D82864D528B562CE003A5807 /* InfoViewController.swift */; };
 		D82864D928B635F6003A5807 /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D82864D828B635F6003A5807 /* ProfileHeaderView.swift */; };
+		D832C272298BB6310032E811 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = D832C271298BB6310032E811 /* Realm */; };
+		D832C274298BB6310032E811 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = D832C273298BB6310032E811 /* RealmSwift */; };
 		D871506628E0A83500FBEDB8 /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D871506528E0A83500FBEDB8 /* PostTableViewCell.swift */; };
 		D87F3C4428F9AE2C00EB97DB /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = D87F3C4328F9AE2C00EB97DB /* Users.swift */; };
 		D8AFB79A28D7AEFA00FE4B50 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8AFB79928D7AEFA00FE4B50 /* LogInViewController.swift */; };
@@ -125,10 +127,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D832C274298BB6310032E811 /* RealmSwift in Frameworks */,
 				D820368928F1F02F001D2D7B /* iOSIntPackage in Frameworks */,
 				D820367228EC2B89001D2D7B /* StorageService.framework in Frameworks */,
 				D05357C77467A24A26B47913 /* Pods_Navigation.framework in Frameworks */,
 				D8038174293F79EA009140EE /* FirebaseAuth in Frameworks */,
+				D832C272298BB6310032E811 /* Realm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -321,6 +325,8 @@
 			packageProductDependencies = (
 				D820368828F1F02F001D2D7B /* iOSIntPackage */,
 				D8038173293F79EA009140EE /* FirebaseAuth */,
+				D832C271298BB6310032E811 /* Realm */,
+				D832C273298BB6310032E811 /* RealmSwift */,
 			);
 			productName = Navigation;
 			productReference = D8F2E26328B407B30065E033 /* Navigation.app */;
@@ -356,6 +362,7 @@
 			packageReferences = (
 				D820368728F1F02E001D2D7B /* XCRemoteSwiftPackageReference "iOSIntPackage" */,
 				D8038172293F79EA009140EE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				D832C270298BB6300032E811 /* XCRemoteSwiftPackageReference "realm-swift" */,
 			);
 			productRefGroup = D8F2E26428B407B30065E033 /* Products */;
 			projectDirPath = "";
@@ -829,6 +836,14 @@
 				minimumVersion = 3.0.0;
 			};
 		};
+		D832C270298BB6300032E811 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -841,6 +856,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D820368728F1F02E001D2D7B /* XCRemoteSwiftPackageReference "iOSIntPackage" */;
 			productName = iOSIntPackage;
+		};
+		D832C271298BB6310032E811 /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D832C270298BB6300032E811 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = Realm;
+		};
+		D832C273298BB6310032E811 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D832C270298BB6300032E811 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -7,6 +7,21 @@
 
 import UIKit
 import FirebaseAuth
+import RealmSwift
+
+class CurrentUserAutorization: Object {
+    
+    @Persisted(primaryKey: true) var _id: String
+    @Persisted var login: String
+    @Persisted var password: String
+    
+    convenience init(login: String, password: String) {
+        self.init()
+        self._id = "currentUserAutorization"
+        self.login = login
+        self.password = password
+    }
+}
 
 class User {
     var login: String

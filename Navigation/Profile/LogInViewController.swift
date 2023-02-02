@@ -8,6 +8,7 @@
 import UIKit
 import FirebaseCore
 import FirebaseAuth
+import RealmSwift
 
 // Собственные домены ошибок. Управление ошибками приложения / задача 1.
 enum MyError: Error {
@@ -31,6 +32,8 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
     var activityIndicator = UIActivityIndicatorView(style: .medium)
     
     var stopSearching: Bool = true
+    
+    var realm = try! Realm()
         
     private /* weak */ var loginDelegate: LoginViewControllerDelegate?
 
@@ -165,6 +168,33 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
                 
         super.viewDidLoad()
+        
+        let currentUserAutorization = realm.object(ofType: CurrentUserAutorization.self, forPrimaryKey: "currentUserAutorization")
+        if let autorization = currentUserAutorization {
+            loginDelegate!.checkCredentials(login: autorization.login, password: autorization.password) {[weak self] (success, errorDescription) in
+                guard let `self` = self else { return }
+                
+                if (success) {
+                    self.showProfileControler()
+                } else {
+                    self.showLoginControler()
+                }
+            }
+        }
+        else {
+            self.showLoginControler()
+        }
+    }
+    
+    private func saveUserAutorization(login: String, password: String) {
+        try! realm.write{
+            let userAutorization = CurrentUserAutorization(login: login, password: password)
+            realm.add(userAutorization)
+        }
+    }
+ 
+    private func showLoginControler() {
+
         self.setupGestures()
         
         #if DEBUG
@@ -176,6 +206,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         addSubviews()
         setConstraints()
         setupIsEnabled()
+        
     }
     
     private func addSubviews() {
@@ -306,6 +337,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
             guard let `self` = self else { return }
         
             if (success) {
+                self.saveUserAutorization(login: self.loginTextField.text!, password: self.passwordTextField.text!)
                 self.showProfileControler()
             } else {
                 presentAlert(title: "Login Error", message: errorDescription, controller: self)
