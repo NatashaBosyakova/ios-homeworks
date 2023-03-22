@@ -11,6 +11,8 @@ import iOSIntPackage
 
 class PostTableViewCell: UITableViewCell {
     
+    var post: Post2?
+    
     private lazy var postImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.backgroundColor = .black
@@ -26,6 +28,42 @@ class PostTableViewCell: UITableViewCell {
         label.numberOfLines = 2
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
+    }()
+
+    public lazy var addToFavoriteButton: UIButton = {
+        
+        var config = UIButton.Configuration.filled()
+        config.image = UIImage(
+            systemName: "heart",
+            withConfiguration: UIImage.SymbolConfiguration(scale: .medium))
+        config.baseForegroundColor = .gray
+        config.baseBackgroundColor = .systemGray6
+        config.imagePadding = 5
+        let button = UIButton(configuration: config)
+        button.addTarget(self, action: #selector(addToFavorite), for: .touchUpInside)
+        
+        button.translatesAutoresizingMaskIntoConstraints = false
+        
+        return button
+        
+    }()
+    
+    public lazy var deleteFromFavoriteButton: UIButton = {
+        
+        var config = UIButton.Configuration.filled()
+        config.image = UIImage(
+            systemName: "heart.fill",
+            withConfiguration: UIImage.SymbolConfiguration(scale: .medium))
+        config.baseForegroundColor = .gray
+        config.baseBackgroundColor = .systemGray6
+        config.imagePadding = 5
+        let button = UIButton(configuration: config)
+        button.addTarget(self, action: #selector(deleteFromFavorite), for: .touchUpInside)
+        
+        button.translatesAutoresizingMaskIntoConstraints = false
+        
+        return button
+        
     }()
 
     private lazy var descriptionLabel: UILabel = {
@@ -75,13 +113,30 @@ class PostTableViewCell: UITableViewCell {
         self.postImageView.image = img
     }
     
-    func setup(post: Post) {
-        ImageProcessor().processImage(sourceImage: UIImage(named: post.image)!, filter: .sepia(intensity: 0.2), completion: setImage)
+    @objc private func addToFavorite() {
+        CoreDataManager().addPostToFavorite(post: self.post!)
+        addToFavoriteButton.isHidden = true
+        deleteFromFavoriteButton.isHidden = false
+    }
+    
+    @objc private func deleteFromFavorite() {
+        CoreDataManager().deletePostFromFavorite(post: self.post!)
+        addToFavoriteButton.isHidden = false
+        deleteFromFavoriteButton.isHidden = true
+    }
+    
+    func setup(post: Post2) {
         
+        let uiImage = UIImage(data: post.imageData!)!
+        
+        ImageProcessor().processImage(sourceImage: uiImage, filter: .sepia(intensity: 0.2), completion: setImage)
+        
+        self.post = post
         self.authorLabel.text = post.author
-        self.descriptionLabel.text = post.description
+        self.descriptionLabel.text = post.postDescription
         self.likesLabel.text = "Likes: "+String(post.likes)
         self.viewsLabel.text = "Views: "+String(post.views)
+        
     }
     
     override func prepareForReuse() {
@@ -95,6 +150,8 @@ class PostTableViewCell: UITableViewCell {
     
     private func setupView() {
         self.contentView.addSubview(self.authorLabel)
+        self.contentView.addSubview(self.addToFavoriteButton)
+        self.contentView.addSubview(self.deleteFromFavoriteButton)
         self.contentView.addSubview(self.postImageView)
         self.contentView.addSubview(self.descriptionLabel)
         self.statisticView.addSubview(self.likesLabel)
@@ -105,7 +162,15 @@ class PostTableViewCell: UITableViewCell {
             
             self.authorLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 16),
             self.authorLabel.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: 16),
-            self.authorLabel.rightAnchor.constraint(equalTo: self.contentView.rightAnchor, constant: -16),
+            self.authorLabel.rightAnchor.constraint(equalTo: self.contentView.rightAnchor, constant: -16-32),
+
+            self.addToFavoriteButton.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 10),
+            self.addToFavoriteButton.leftAnchor.constraint(equalTo: self.contentView.rightAnchor, constant: -16-32),
+            self.addToFavoriteButton.rightAnchor.constraint(equalTo: self.contentView.rightAnchor, constant: -16),
+            
+            self.deleteFromFavoriteButton.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 10),
+            self.deleteFromFavoriteButton.leftAnchor.constraint(equalTo: self.contentView.rightAnchor, constant: -16-32),
+            self.deleteFromFavoriteButton.rightAnchor.constraint(equalTo: self.contentView.rightAnchor, constant: -16),
 
             self.postImageView.topAnchor.constraint(equalTo: self.authorLabel.bottomAnchor, constant: 12),
             self.postImageView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor),

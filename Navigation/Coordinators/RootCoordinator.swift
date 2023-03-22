@@ -36,6 +36,7 @@ class TabBarController: UITabBarController {
         
         UITabBar.appearance().tintColor = UIColor(named: "color")
         UITabBar.appearance().backgroundColor = .systemGray6
+        //UITabBar.appearance().backgroundColor = .white
         UITabBar.appearance().barTintColor = .systemGray3
         self.tabBar.layer.borderWidth = 1
         self.tabBar.layer.borderColor = UIColor.systemGray4.cgColor
@@ -53,6 +54,11 @@ class TabBarController: UITabBarController {
             controller: logInViewController,
             title: "Profile",
             image: UIImage(systemName: "person.fill")!)
+        
+        addController(
+            controller: FeedViewController(),
+            title: "Favorites",
+            image: UIImage(systemName: "heart.text.square.fill")!)
     }
 
     func addController(controller: UIViewController, title: String, image: UIImage) {

@@ -40,6 +40,9 @@
 		D8B1E208292A89AE00575808 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8B1E207292A89AE00575808 /* CustomButton.swift */; };
 		D8B1E20A292BE1BC00575808 /* FeedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8B1E209292BE1BC00575808 /* FeedModel.swift */; };
 		D8B1E20C292CFA3400575808 /* RootCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8B1E20B292CFA3300575808 /* RootCoordinator.swift */; };
+		D8C8105C29AD07270087E58A /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C8105B29AD07270087E58A /* FavoritesViewController.swift */; };
+		D8C8106829AE2D720087E58A /* CoreDataManager2.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C8106729AE2D710087E58A /* CoreDataManager2.swift */; };
+		D8C8106B29AE2DB30087E58A /* Navigation2.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D8C8106929AE2DB30087E58A /* Navigation2.xcdatamodeld */; };
 		D8D4CC41292FF683006EA971 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D4CC40292FF683006EA971 /* FeedViewModel.swift */; };
 		D8F2E26728B407B30065E033 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8F2E26628B407B30065E033 /* AppDelegate.swift */; };
 		D8F2E26928B407B30065E033 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8F2E26828B407B30065E033 /* SceneDelegate.swift */; };
@@ -103,6 +106,9 @@
 		D8B1E207292A89AE00575808 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		D8B1E209292BE1BC00575808 /* FeedModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedModel.swift; sourceTree = "<group>"; };
 		D8B1E20B292CFA3300575808 /* RootCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootCoordinator.swift; sourceTree = "<group>"; };
+		D8C8105B29AD07270087E58A /* FavoritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
+		D8C8106729AE2D710087E58A /* CoreDataManager2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager2.swift; sourceTree = "<group>"; };
+		D8C8106A29AE2DB30087E58A /* Navigation2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Navigation2.xcdatamodel; sourceTree = "<group>"; };
 		D8D4CC40292FF683006EA971 /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
 		D8F2E26328B407B30065E033 /* Navigation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Navigation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8F2E26628B407B30065E033 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -232,6 +238,23 @@
 			path = SmartViews;
 			sourceTree = "<group>";
 		};
+		D8C8105A29AD06CD0087E58A /* Favorites */ = {
+			isa = PBXGroup;
+			children = (
+				D8C8105B29AD07270087E58A /* FavoritesViewController.swift */,
+			);
+			path = Favorites;
+			sourceTree = "<group>";
+		};
+		D8C8106629AE2D490087E58A /* Data2 */ = {
+			isa = PBXGroup;
+			children = (
+				D8C8106729AE2D710087E58A /* CoreDataManager2.swift */,
+				D8C8106929AE2DB30087E58A /* Navigation2.xcdatamodeld */,
+			);
+			path = Data2;
+			sourceTree = "<group>";
+		};
 		D8F2E25A28B407B20065E033 = {
 			isa = PBXGroup;
 			children = (
@@ -257,6 +280,8 @@
 		D8F2E26528B407B30065E033 /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
+				D8C8106629AE2D490087E58A /* Data2 */,
+				D8C8105A29AD06CD0087E58A /* Favorites */,
 				D81CC679293367B000CADB23 /* Coordinators */,
 				D8B1E20F292D5C4D00575808 /* SmartViews */,
 				D8B1E20E292D5C2A00575808 /* Models */,
@@ -474,6 +499,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D81CC67B293367D300CADB23 /* FeedCoordinator.swift in Sources */,
+				D8C8105C29AD07270087E58A /* FavoritesViewController.swift in Sources */,
 				D81CC67D2933686600CADB23 /* ProfileCoordinator.swift in Sources */,
 				D81CC6812937BE2000CADB23 /* NetworkService.swift in Sources */,
 				D8D4CC41292FF683006EA971 /* FeedViewModel.swift in Sources */,
@@ -486,12 +512,14 @@
 				D87F3C4428F9AE2C00EB97DB /* Users.swift in Sources */,
 				D82864D428B54889003A5807 /* ProfileViewController.swift in Sources */,
 				D8F2E27B28B430C50065E033 /* PostViewController.swift in Sources */,
+				D8C8106829AE2D720087E58A /* CoreDataManager2.swift in Sources */,
 				D820367A28ECC84F001D2D7B /* PhotosTableViewCell.swift in Sources */,
 				D8AFB79A28D7AEFA00FE4B50 /* LogInViewController.swift in Sources */,
 				D82864D628B562CE003A5807 /* InfoViewController.swift in Sources */,
 				D82864D228B54873003A5807 /* FeedViewController.swift in Sources */,
 				D8F2E26728B407B30065E033 /* AppDelegate.swift in Sources */,
 				D8B1E208292A89AE00575808 /* CustomButton.swift in Sources */,
+				D8C8106B29AE2DB30087E58A /* Navigation2.xcdatamodeld in Sources */,
 				D803817629421A63009140EE /* Helpers.swift in Sources */,
 				D8B1E20C292CFA3400575808 /* RootCoordinator.swift in Sources */,
 				D8F2E26928B407B30065E033 /* SceneDelegate.swift in Sources */,
@@ -868,6 +896,19 @@
 			productName = RealmSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		D8C8106929AE2DB30087E58A /* Navigation2.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				D8C8106A29AE2DB30087E58A /* Navigation2.xcdatamodel */,
+			);
+			currentVersion = D8C8106A29AE2DB30087E58A /* Navigation2.xcdatamodel */;
+			path = Navigation2.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = D8F2E25B28B407B20065E033 /* Project object */;
 }

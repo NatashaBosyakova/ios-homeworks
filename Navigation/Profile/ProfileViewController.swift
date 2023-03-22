@@ -11,11 +11,15 @@ import FirebaseAuth
 
 class ProfileViewController: UIViewController {
     
+    /*
     private var posts: [Post] = [Post(index: 0), Post(index: 1), Post(index: 2), Post(index: 3)] {
         didSet {
             likesUpdateNeeded = true
         }
     }
+     */
+    
+    private var posts: [Post2] = CoreDataManager().getPosts()
     
     var likesUpdateNeeded: Bool = false
     
@@ -60,6 +64,7 @@ class ProfileViewController: UIViewController {
         // другие пользователи оставляют лайки под фотографиями
         // в профиле по таймеру будем обновляем вью для отражения нового количества лайков
         
+        /*
         timerUpdate = Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { [weak self] timer in
             guard let self else { return }
             
@@ -75,13 +80,16 @@ class ProfileViewController: UIViewController {
             guard let self else { return }
             
             DispatchQueue.main.asyncAfter(deadline: .now() + Double(Int.random(in: 1...15)), execute: {
-                for index in 0...self.posts.count-1 {
-                    let newLikes = Int.random(in: 1...10)
-                    self.posts[index].likes = self.posts[index].likes + newLikes
-                    self.posts[index].views = self.posts[index].views + Int.random(in: newLikes...100)
+                if (self.posts.count > 0) {
+                    for index in 0...self.posts.count-1 {
+                        let newLikes = Int.random(in: 1...10)
+                        self.posts[index].likes = self.posts[index].likes + Int16(newLikes)
+                        self.posts[index].views = self.posts[index].views + Int16(Int.random(in: newLikes...100))
+                    }
                 }
             })
         }
+         */
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -149,8 +157,22 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
             return cell!
          }
         else {
+            
             let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as? PostTableViewCell
             let post = self.posts[indexPath.row - 1]
+            
+            print("indexPath.row: \(indexPath.row)")
+            print("count: \(self.posts.count)")
+            print("post.author 0: \(String(describing: self.posts[0].author))")
+            print("post.author 1: \(String(describing: self.posts[1].author))")
+            print("post.author 2: \(String(describing: self.posts[2].author))")
+            print("post.author 3: \(String(describing: self.posts[3].author))")
+
+            let isFavorite = true
+            
+            cell!.addToFavoriteButton.isHidden = isFavorite
+            cell!.deleteFromFavoriteButton.isHidden = !isFavorite
+            
             cell!.setup(post: post)
             cell!.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
             return cell!

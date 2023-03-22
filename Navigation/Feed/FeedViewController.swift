@@ -119,6 +119,9 @@ class FeedViewController: UIViewController {
     }
     
     override func viewDidLoad() {
+        
+        //print(FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask))
+        
         super.viewDidLoad()
             
         view.backgroundColor = .systemGray3
