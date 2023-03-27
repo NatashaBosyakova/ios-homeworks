@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21512" systemVersion="22D68" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="FavoritePostDB" representedClassName="FavoritePostDB" syncable="YES" codeGenerationType="class">
+        <attribute name="dateAdded" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="post" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PostDB" inverseName="favoritePost" inverseEntity="PostDB"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserDB" inverseName="userFavoritePosts" inverseEntity="UserDB"/>
+    </entity>
+    <entity name="PostDB" representedClassName="PostDB" syncable="YES" codeGenerationType="class">
+        <attribute name="author" optional="YES" attributeType="String"/>
+        <attribute name="dateAdded" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="imageData" optional="YES" attributeType="Binary"/>
+        <attribute name="likes" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="postDescription" optional="YES" attributeType="String"/>
+        <attribute name="views" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="favoritePost" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="FavoritePostDB" inverseName="post" inverseEntity="FavoritePostDB"/>
+    </entity>
+    <entity name="UserDB" representedClassName="UserDB" syncable="YES" codeGenerationType="class">
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="userFavoritePosts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="FavoritePostDB" inverseName="user" inverseEntity="FavoritePostDB"/>
+    </entity>
+</model>

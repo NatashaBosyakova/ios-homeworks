@@ -124,7 +124,7 @@ class FeedViewController: UIViewController {
         
         super.viewDidLoad()
             
-        view.backgroundColor = .systemGray3
+        self.view.backgroundColor = .systemBackground
 
         addSubviews()
         setConstraints()

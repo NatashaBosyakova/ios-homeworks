@@ -11,16 +11,6 @@ import FirebaseAuth
 
 class ProfileViewController: UIViewController {
     
-    /*
-    private var posts: [Post] = [Post(index: 0), Post(index: 1), Post(index: 2), Post(index: 3)] {
-        didSet {
-            likesUpdateNeeded = true
-        }
-    }
-     */
-    
-    private var posts: [Post2] = CoreDataManager().getPosts()
-    
     var likesUpdateNeeded: Bool = false
     
     var timerUpdate: Timer! = nil
@@ -59,6 +49,12 @@ class ProfileViewController: UIViewController {
         view.addGestureRecognizer(tap)
         tap.cancelsTouchesInView = false
         
+        NotificationCenter.default.addObserver(self,
+            selector: #selector(reloadFavorites),
+            name: .init("reloadFavorites"),
+            object: nil)
+
+        
         // iosint-10 / Домашнее задание к занятию "Run Loop, таймеры"
         // наше приложение многопользовательское
         // другие пользователи оставляют лайки под фотографиями
@@ -92,9 +88,19 @@ class ProfileViewController: UIViewController {
          */
     }
     
+    @objc private func reloadFavorites() {
+        tableView.visibleCells.forEach { cell in
+            if let cell = cell as? PostTableViewCell {
+                let isFavorite = CoreDataManager.sharedManager.getIsFavorite(post: cell.post!)
+                cell.addToFavoriteButton.isHidden = isFavorite
+                cell.deleteFromFavoriteButton.isHidden = !isFavorite
+            }
+        }
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
-        timerUpdate.invalidate()
-        timerAddLikes.invalidate()
+        //timerUpdate.invalidate()
+        //timerAddLikes.invalidate()
     }
 
     @objc func dismissKeyboard() {
@@ -113,6 +119,7 @@ class ProfileViewController: UIViewController {
     private func setupView() {
         
         self.view.backgroundColor = .systemBackground
+         
         self.view.addSubview(self.tableView)
         
         NSLayoutConstraint.activate([
@@ -146,7 +153,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        posts.count + 1
+        CoreDataManager.sharedManager.posts.count + 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -159,21 +166,11 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
         else {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as? PostTableViewCell
-            let post = self.posts[indexPath.row - 1]
+            let post = CoreDataManager.sharedManager.posts[indexPath.row - 1]
             
-            print("indexPath.row: \(indexPath.row)")
-            print("count: \(self.posts.count)")
-            print("post.author 0: \(String(describing: self.posts[0].author))")
-            print("post.author 1: \(String(describing: self.posts[1].author))")
-            print("post.author 2: \(String(describing: self.posts[2].author))")
-            print("post.author 3: \(String(describing: self.posts[3].author))")
-
-            let isFavorite = true
+            let isFavorite = CoreDataManager.sharedManager.getIsFavorite(post: post)
             
-            cell!.addToFavoriteButton.isHidden = isFavorite
-            cell!.deleteFromFavoriteButton.isHidden = !isFavorite
-            
-            cell!.setup(post: post)
+            cell!.setup(post: post, isFavorite: isFavorite)
             cell!.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
             return cell!
         }
@@ -196,5 +193,3 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
 }
-
-

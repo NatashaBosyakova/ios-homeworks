@@ -8,11 +8,12 @@
 import UIKit
 import StorageService
 import iOSIntPackage
+import FirebaseAuth
 
 class PostTableViewCell: UITableViewCell {
     
-    var post: Post2?
-    
+    var post: PostDB?
+
     private lazy var postImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.backgroundColor = .black
@@ -114,18 +115,22 @@ class PostTableViewCell: UITableViewCell {
     }
     
     @objc private func addToFavorite() {
-        CoreDataManager().addPostToFavorite(post: self.post!)
+        CoreDataManager.sharedManager.addPostToFavorite(post: self.post!)
         addToFavoriteButton.isHidden = true
         deleteFromFavoriteButton.isHidden = false
+        
+        NotificationCenter.default.post(Notification(name: NSNotification.Name("reloadFavorites")))
     }
     
     @objc private func deleteFromFavorite() {
-        CoreDataManager().deletePostFromFavorite(post: self.post!)
+        CoreDataManager.sharedManager.deletePostFromFavorite(post: self.post!)
         addToFavoriteButton.isHidden = false
         deleteFromFavoriteButton.isHidden = true
+        
+        NotificationCenter.default.post(Notification(name: NSNotification.Name("reloadFavorites")))
     }
     
-    func setup(post: Post2) {
+    func setup(post: PostDB, isFavorite: Bool) {
         
         let uiImage = UIImage(data: post.imageData!)!
         
@@ -137,6 +142,12 @@ class PostTableViewCell: UITableViewCell {
         self.likesLabel.text = "Likes: "+String(post.likes)
         self.viewsLabel.text = "Views: "+String(post.views)
         
+        self.addToFavoriteButton.isHidden = isFavorite
+        self.deleteFromFavoriteButton.isHidden = !isFavorite
+        
+        let doubleTap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(addToFavorite))
+        doubleTap.numberOfTapsRequired = 2
+        self.addGestureRecognizer(doubleTap)
     }
     
     override func prepareForReuse() {
