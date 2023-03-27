@@ -1,0 +1,205 @@
+//
+//  FeedViewController.swift
+//  Navigation
+//
+//  Created by Наталья Босякова on 23.08.2022.
+//
+
+import UIKit
+
+struct Post0 {
+    var text: String
+}
+
+class FeedViewController: UIViewController {
+    
+    var post: Post0
+    var viewModel: FeedViewModel = FeedViewModel(model: FeedModel())
+    
+    private lazy var button1: CustomButton = {
+                
+        let button = CustomButton(
+            title: "Show post 1",
+            backgroundColor: UIColor(named: "ButtonColor")!,
+            tapAction: showPostViewController)
+
+        return button
+        
+    }()
+ 
+    private lazy var button2: CustomButton = {
+        
+        let button = CustomButton(
+            title: "Show post 2",
+            backgroundColor: UIColor(named: "ButtonColor")!,
+            tapAction: showPostViewController)
+
+        return button
+        
+    }()
+    
+    private lazy var wordField: UITextField = {
+        let textField = UITextField()
+        textField.placeholder = "Your word"
+        textField.font = UIFont.systemFont(ofSize: 18)
+        textField.textColor = .gray
+        textField.backgroundColor = .white
+        textField.layer.borderColor = UIColor.black.cgColor
+        textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: 8))
+        textField.leftViewMode = .always
+        
+        textField.rightView = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: 8))
+        textField.rightViewMode = .always
+
+        return textField
+    }()
+   
+    private lazy var checkGuessLabel: UILabel = {
+        
+        let label = UILabel()
+        label.text = " "
+        label.textColor = .white
+        label.backgroundColor = .gray
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        return label
+        
+    }()
+    
+    private lazy var tipLabel: UILabel = {
+        
+        let label = UILabel()
+        label.text = "*The best choice: Snail"
+        label.textColor = .white
+        return label
+        
+    }()
+    
+    private lazy var checkGuessButton: CustomButton = {
+        
+        let button = CustomButton(
+            title: "Check word",
+            backgroundColor: UIColor(named: "ButtonColor")!,
+            tapAction: checkWord)
+
+        return button
+        
+    }()
+   
+    private lazy var stackViewGuessWord: UIStackView = {
+        let stackView = UIStackView()
+        stackView.alignment = .center
+        stackView.axis = .horizontal
+        stackView.spacing = 10
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.distribution = .equalSpacing
+
+        return stackView
+    }()
+    
+    private lazy var stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.alignment = .center
+        stackView.axis = .vertical
+        stackView.spacing = 10
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.distribution = .equalSpacing
+
+        return stackView
+    }()
+    
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        self.post = Post0(text: "Some post (title from FeedViewController)")
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewDidLoad() {
+        
+        //print(FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask))
+        
+        super.viewDidLoad()
+            
+        self.view.backgroundColor = .systemBackground
+
+        addSubviews()
+        setConstraints()
+        
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tap)
+        tap.cancelsTouchesInView = false
+
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
+    private func addSubviews() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Info", style: .plain, target: self, action: #selector(showInfoViewController))
+        navigationItem.rightBarButtonItem?.tintColor = .white
+        
+        stackView.addArrangedSubview(button1)
+        stackView.addArrangedSubview(button2)
+        stackView.addArrangedSubview(stackViewGuessWord)
+        stackView.addArrangedSubview(tipLabel)
+
+        stackViewGuessWord.addArrangedSubview(wordField)
+        stackViewGuessWord.addArrangedSubview(checkGuessLabel)
+        stackViewGuessWord.addArrangedSubview(checkGuessButton)
+        
+        view.addSubview(stackView)
+    }
+    
+    private func setConstraints() {
+        NSLayoutConstraint.activate([
+            stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            checkGuessLabel.heightAnchor.constraint(equalToConstant: 20),
+            checkGuessLabel.widthAnchor.constraint(equalToConstant: 20),
+        ])
+    }
+    
+    @objc func showPostViewController() {
+        let controller = PostViewController()
+        controller.post = self.post
+        navigationController?.pushViewController(controller, animated: true)
+    }
+    
+    @objc func showInfoViewController(sender: UIButton!) {
+        let controller = InfoViewController()
+        controller.modalPresentationStyle = .popover
+        self.present(controller, animated: true)
+    }
+    
+    @objc func checkWord() {
+        
+        let result = viewModel.check(wordField.text!)
+        
+        switch result {
+            
+        case .success(let isRightWord):
+                
+            checkGuessLabel.backgroundColor = isRightWord ? .green : .red
+            checkGuessLabel.text = isRightWord ? "✓" : "-"
+            checkGuessLabel.textColor = .white
+            
+            presentAlert(
+                title: isRightWord ? "Right" : "Wrong",
+                message: isRightWord ? "Cool!" : "Try again.",
+                controller: self)
+            
+        case .failure(let myError):
+            
+            checkGuessLabel.text = " "
+            checkGuessLabel.backgroundColor  = .gray
+            
+            presentAlert(title: "Enter a word", message: myError.description, controller: self)
+            
+        }
+    }
+}
